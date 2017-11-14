@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+<button type="button" class="close" data-dismiss="alert">x</button>
+{{ message }}
+</div>
+{% endfor %}
+<div>
+	<table class="table table-bordered">
+	<thead><th class="text-center" colspan="7"><h3>{{name}}上周总结</h3></th></thead>
+	<tr>
+	<th>所属项目</th>
+	<th>当日工作量（/H）</th>
+	<th>周完成情况</th>
+	<th>工作内容</th>
+	<th>时间记录</th>
+	<tbody>
+		{%for i in data%}
+		<tr>
+		<th>{{i[1]}}</th>
+		<th>{{i[0].worktime}}</th>
+		<th>{{i[0].completed}}</th>
+		<td width="50%">
+{%if i[0].something0 != ''%}{{i[0].something0}}<br/>{%endif%}
+{%if i[0].something1 != ''%}{{i[0].something1}}<br/>{%endif%}
+{%if i[0].something2 != ''%}{{i[0].something2}}<br/>{%endif%}
+{%if i[0].something3 != ''%}{{i[0].something3}}<br/>{%endif%}
+{%if i[0].more0 != ''%}{{i[0].more0}}<br/>{%endif%}
+		<th>{{{0:'星期一',1:'星期二',2:'星期三',3:'星期四',4:'星期五',5:'星期六',6:'星期日'}[i[0].week]}}</th>
+		</tr>
+		{%endfor%}
+	</tbody>
+</div>
+{% endblock %}

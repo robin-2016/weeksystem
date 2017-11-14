@@ -1,0 +1,62 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}ZTRK{% endblock %}
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle"data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ZTRK</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/main">主页</a></li>
+            </ul>
+	{%if session.get('role') == 'admin'%}
+            <ul class="nav navbar-nav">
+                <li><a href="/muser/main">账号管理</a></li>
+            </ul>
+	{%endif%}
+	{%if session.get('role') != 'user'%}
+	    <ul class="nav navbar-nav">
+                <li><a href="/zhoubaos/search">组成员上周周报</a></li>
+            </ul>
+	{%endif%}
+            <ul class="nav navbar-nav">
+                <li><a href="/zhoubaos/{{current_user.name}}">个人上周周报</a></li>
+            </ul>
+	{%if session.get('role') == 'admin' or session.get('role') == 'renli'%}
+	    <ul class="nav navbar-nav">
+                <li><a href="/tongji">周报统计</a></li>
+            </ul>
+	    <ul class="nav navbar-nav">
+                <li><a href="/yuetongji">月统计</a></li>
+            </ul>
+	{%endif%}
+	<div class="navbar-collapse collapse col-lg-1 pull-right">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Hello,{%if current_user.is_authenticated %}{{ current_user.name }}{%else%}Guest{%endif%}</a></li>
+            </ul>
+		{%if current_user.is_authenticated%}
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('login.userchange')}}">修改密码</a></li>
+            </ul>
+	    <ul class="nav navbar-nav navbar-right">
+		<li><a href="{{ url_for('login.logout') }}">登出</a></li>
+		{% endif %}
+	    </ul>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="container">
+        {{ form.csrf_token }}
+	{% block page_content %}{% endblock %}
+</div>
+{% endblock %}

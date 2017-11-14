@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block content %}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+<button type="button" class="close" data-dismiss="alert">x</button>
+{{ message }}
+</div>
+{% endfor %}
+<div class="container">
+	<table class="table table-bordered">
+	<thead>
+	<tr>
+	<th>用户名</th>
+	<th>角色</th>
+	<th>所属项目</th>
+	<th>最后登录时间</th>
+	<th>操作</th>
+	</tr>
+	</thead>
+	<tbody>
+		{%for i in usersitem%}
+		<tr>
+		<th>{{i[1]}}</th>
+		<th>{{i[2]}}</th>
+		<th>{{i[3]}}</th>
+		<th>{{i[4]}}</th>
+		<th><a href="/muser/auth/{{i[0]}}">权限变更</a></th>
+		</tr>
+		{%endfor%}
+	</tbody>
+</div>
+<div class="container">
+	{% if pagination %}
+	<div class="pagination">
+    	{{ macros.pagination_widget(pagination, 'muser.musermain') }}</div>
+	{% endif %}
+</div>
+{% endblock %}

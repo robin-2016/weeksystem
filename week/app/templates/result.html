@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+        {{ message }}
+        </div>
+        {% endfor %}
+</div>
+<div>
+        <table class="table table-bordered">
+        <thead><th class="text-center" colspan="5"><h3>{{yweeklabel}}周报汇总结果</h3></th></thead>
+	</table>
+</div>
+<div class="row">
+<div class="col-xs-4">
+	<table class="table table-bordered">
+        <thead><th class="text-center" colspan="3">未按时间提交</th></thead>
+	<tr>
+        <th>姓名</th>
+	<th>项目组</th>
+        <th>最后提交时间</th></tr>
+        <tbody>
+        {%for i in uptime%}
+        <tr>
+        <th>{{i[0]}}</th>
+        <th>{{i[1]}}</th>
+        <th>{{i[2]}}</th>
+        </tr>
+        {%endfor%}
+	</tbody>
+        </table>
+</div>
+<div class="col-xs-4">
+        <table class="table table-bordered">
+        <thead><th class="text-center" colspan="3">周报未完成</th></thead>
+        <tr><th>姓名</th>
+	<th>项目组</th>
+	<th>周报未写天数</th>
+	</tr>
+        <tbody>
+	{%for i in zhoubao%}
+	<tr>
+	<th>{{i[0]}}</th>
+	<th>{{i[1]}}</th>
+	<th>{{i[2]}}</th>
+	</tr>
+	{%endfor%}
+	</tbody>
+        </table>
+</div>
+<div class="col-xs-4">
+        <table class="table table-bordered">
+        <thead><th class="text-center" colspan="3">工作量不足</th></thead>
+	<tr>
+        <th>姓名</th>
+	<th>项目组</th>
+        <th>所缺工作量</th></tr>
+        <tbody>
+        {%for i in wtime%}
+        <tr>
+        <th>{{i[0]}}</th>
+        <th>{{i[1]}}</th>
+	<th>{{i[2]}}</th>
+        </tr>
+        {%endfor%}
+	</tbody>
+        </table>
+</div>
+</div>
+{% endblock %}

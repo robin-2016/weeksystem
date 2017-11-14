@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<form action method="POST" class="form" role="form">
+	{{form.hidden_tag()}}
+<div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+        {{ message }}
+        </div>
+        {% endfor %}
+</div>
+<div class="container">
+	<div class="col-sm-4">
+	<div class="form-group">
+	{{form.something0.label}}{{form.something0(class="form-control")}}</div></div>
+	<div class="col-sm-4">
+        <div class="form-group">
+	{{form.worktime0.label}}{{form.worktime0(class="form-control")}}</div></div>
+	<div class="col-sm-2">
+        <div class="form-group">
+	{{form.completed0.label}}{{form.completed0(class="form-control")}}</div></div>
+</div>
+<div class="container">
+	<div class="col-sm-4">
+	<div class="form-group">
+	{{form.something1.label}}{{form.something1(class="form-control")}}</div></div>
+	<div class="col-sm-4">
+        <div class="form-group">
+	{{form.worktime1.label}}{{form.worktime1(class="form-control")}}</div></div>
+	<div class="col-sm-2">
+        <div class="form-group">
+	{{form.completed1.label}}{{form.completed1(class="form-control")}}</div></div>
+</div>
+<div class="container">
+	<div class="col-sm-4">
+	<div class="form-group">
+	{{form.something2.label}}{{form.something2(class="form-control")}}</div></div>
+	<div class="col-sm-4">
+        <div class="form-group">
+	{{form.worktime2.label}}{{form.worktime2(class="form-control")}}</div></div>
+	<div class="col-sm-2">
+        <div class="form-group">
+	{{form.completed2.label}}{{form.completed2(class="form-control")}}</div></div>
+</div>
+<div class="container">
+	<div class="col-sm-4">
+	<div class="form-group">
+	{{form.something3.label}}{{form.something3(class="form-control")}}</div></div>
+	<div class="col-sm-4">
+        <div class="form-group">
+	{{form.worktime3.label}}{{form.worktime3(class="form-control")}}</div></div>
+	<div class="col-sm-2">
+        <div class="form-group">
+	{{form.completed3.label}}{{form.completed3(class="form-control")}}</div></div>
+</div>
+<div class="container">
+	<div class="col-sm-4">
+	<div class="form-group">
+	{{form.more0.label}}{{form.more0(class="form-control")}}</div></div>
+	<div class="col-sm-4">
+        <div class="form-group">
+	{{form.more1.label}}{{form.more1(class="form-control")}}</div></div>
+	<div class="col-sm-2">
+        <div class="form-group">
+	{{form.more2.label}}{{form.more2(class="form-control")}}</div></div>
+</div>
+<div class="container">
+	<div class="col-sm-4">
+	<div class="form-group">
+	{{form.submit(class="btn btn-default")}}</div></div>
+</div>
+</form>
+{% endblock %}

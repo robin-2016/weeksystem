@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block content %}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+<button type="button" class="close" data-dismiss="alert">x</button>
+{{ message }}
+</div>
+{% endfor %}
+<div class="container">
+<div class="col-md-6">
+	<table class="table table-bordered">
+	<tbody>
+		{%for i in usersitem%}
+		<tr>
+		<th><a href="/zhoubaos/groups/{{i.name}}">{{i.name}}</a></th>
+		</tr>
+		{%endfor%}
+	</tbody>
+</div>
+<div>
+        {% if pagination %}
+        <div class="pagination">
+        {{ macros.pagination_widget(pagination, 'zhoubaos.zbusers') }}</div>
+	{% endif %}
+</div>
+</div>
+{% endblock %}

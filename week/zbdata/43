@@ -1,3 +1,0 @@
-[(u'test', u'group01', ''), (u'renli', u'group01', ''), (u'test01', u'groups02', ''), (u'test03', u'ythj', ''), (u'test04', u'ythj', ''), (u'admin', u'\u8fd0\u7ef4\u7ec4', datetime.datetime(2017, 11, 2, 14, 17, 22))]
-[(u'test', u'group01', 5), (u'renli', u'group01', 5), (u'test01', u'groups02', 5), (u'test03', u'ythj', 5), (u'test04', u'ythj', 5), (u'admin2017', u'\u8fd0\u7ef4\u7ec4', 1)]
-[(u'test', u'group01', 40), (u'renli', u'group01', 40), (u'test01', u'groups02', 40), (u'test03', u'ythj', 40), (u'test04', u'ythj', 40), (u'admin2017', u'\u8fd0\u7ef4\u7ec4', 8.5)]

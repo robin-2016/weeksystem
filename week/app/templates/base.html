@@ -16,6 +16,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="/main">主页</a></li>
             </ul>
+    {%if current_user.is_authenticated%}
 	{%if session.get('role') == 'admin'%}
             <ul class="nav navbar-nav">
                 <li><a href="/muser/main">账号管理</a></li>
@@ -41,7 +42,6 @@
             <ul class="nav navbar-nav">
                 <li><a href="#">Hello,{%if current_user.is_authenticated %}{{ current_user.name }}{%else%}Guest{%endif%}</a></li>
             </ul>
-		{%if current_user.is_authenticated%}
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('login.userchange')}}">修改密码</a></li>
             </ul>

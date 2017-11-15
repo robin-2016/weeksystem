@@ -46,7 +46,7 @@ def compute():
 	else:
 		tweek = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
 		yweeklabel=u'上周'
-	print yweek
+#	print yweek
 	montime=(datetime.datetime.strptime(str(tweek),'%Y-%m-%d')).replace(hour=9,minute=30,second=00)
 #	print montime
 #	users = Users.query.all()
@@ -69,9 +69,9 @@ def compute():
 			wk = wk + a.worktime
 		if wk < weekday*8:
 			wtime.append((i[0],i[1],(weekday*8-wk)))
-	if os.path.exists('/root/week/zbdata/')==False:
-		os.makedirs('/root/week/zbdata/') 
-	with open('/root/week/zbdata/'+str(yweek),'w') as f:
+	if os.path.exists('/root/zbdata/')==False:
+		os.makedirs('/root/zbdata/')
+	with open('/root/zbdata/'+str(yweek),'w') as f:
 		f.write(str(uptime)+'\n')
 		f.write(str(zhoubao)+'\n')
 		f.write(str(wtime)+'\n')
@@ -127,8 +127,8 @@ def hebing():
 #	print range(fweek,lweek)
 #	shangzhou= int(time.strftime("%W"))-1
 	for i in range(fweek,lweek):
-		if os.path.exists('/root/week/zbdata/'+str(i)):
-			with open('/root/week/zbdata/'+str(i),'r') as f:
+		if os.path.exists('/root/zbdata/'+str(i)):
+			with open('/root/zbdata/'+str(i),'r') as f:
 				linshi = f.readlines()
 				uptimes = uptimes +eval(linshi[0])
 				zhoubaos=zhoubaos + eval(linshi[1])

@@ -1,7 +1,7 @@
 from datetime import datetime
 from ..login import login
 from flask_login import login_user,logout_user,login_required,current_user
-from flask import flash,redirect,url_for,render_template,session
+from flask import flash,redirect,url_for,render_template,session,request
 from .forms import LoginForm,UseraddForm,ChangepwForm
 from .. import db
 from ..models import Users,Role,Groups
@@ -38,21 +38,22 @@ def logout():
 #######@login_required
 def useradd():
         myform = UseraddForm()
-        if myform.validate_on_submit():
-                u = Users()
-                u.password_hash = myform.passwd.data
-#                user = Users(name=myform.username.data,passwd=u.passwd)
-                u.name = myform.username.data
-		u.role_id = 2
-		u.groups_id = myform.groups.data
-                db.session.add(u)
-                db.session.commit()
-                flash('User add Successful!')
-                myform.username.data = None
-		return redirect(url_for('login.denglu'))
-	else:
-		flash('User add error!!!')
-        	return render_template('useradd.html',form=myform)
+        if request.method == 'POST':
+                if myform.validate_on_submit():
+                    u = Users()
+                    u.password_hash = myform.passwd.data
+        #                user = Users(name=myform.username.data,passwd=u.passwd)
+                    u.name = myform.username.data
+                    u.role_id = 2
+                    u.groups_id = myform.groups.data
+                    db.session.add(u)
+                    db.session.commit()
+                    flash('User add Successful!')
+                    myform.username.data = None
+                    return redirect(url_for('login.denglu'))
+                else:
+                    flash('User add error!!!')
+                    return render_template('useradd.html',form=myform)
         return render_template('useradd.html',form=myform)
 
 @login.route('/userchange',methods=['GET','POST'])

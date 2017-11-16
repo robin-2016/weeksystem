@@ -83,7 +83,6 @@ def insert():
 			# print myform.errors.values()[0][0]
 			flash(u'增加数据失败！'+myform.errors.values()[0][0])
 			return render_template('insert.html',form=myform)
-	
 	return render_template('insert.html',form=myform)
 
 @main.route('/update/<id>',methods=['GET','POST'])
@@ -154,9 +153,10 @@ def update(id):
 					# print myform.errors
 					flash(u'修改数据失败！'+myform.errors.values()[0][0])
 					return render_template('update.html',form=myform)
+		return render_template('update.html', form=myform)
 	else:
 		flash("没有权限！")
-		return render_template('update.html',form=myform)
+		return redirect(url_for('main.index'))
 
 @main.route('/deldata/<id>')
 @login_required

@@ -4,7 +4,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 from flask_wtf import FlaskForm
-from wtforms import TextField,validators,SubmitField,StringField,PasswordField,BooleanField,SelectField,IntegerField,ValidationError
+from wtforms import validators,SubmitField,StringField,PasswordField,BooleanField,SelectField,ValidationError
 from wtforms.validators import Required,Length,Regexp,EqualTo
 from ..models import Users,Role,Groups
 

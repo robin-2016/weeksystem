@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
+<div class="container">
 {% for message in get_flashed_messages() %}
 <div class="alert alert-warning">
 <button type="button" class="close" data-dismiss="alert">x</button>
 {{ message }}
 </div>
 {% endfor %}
-<div class="container">
 <div class="col-lg-3 pull-right">
 <a href="/insert"><button type="button" class="btn btn-default">提交工作量（天）</button></a>
 </div>
@@ -21,7 +21,8 @@
 	<th>周完成情况</th>
 	<th>工作内容</th>
 	<th>时间记录</th>
-	<th>操作</th>
+	<th>修改</th>
+	<th>删除</th>
 	<tbody>
 		{%for i in data%}
 		<tr>
@@ -36,6 +37,7 @@
 {%if i[0].more0 != ''%}{{i[0].more0}}<br/>{%endif%}
 		<th>{{{0:'星期一',1:'星期二',2:'星期三',3:'星期四',4:'星期五',5:'星期六',6:'星期日'}[i[0].week]}}</th>
 		<th><a href="/update/{{i[0].id}}">修改</a></th>
+		<th><a href="/deldata/{{i[0].id}}">删除</a></th>
 		</tr>
 		{%endfor%}
 	</tbody>

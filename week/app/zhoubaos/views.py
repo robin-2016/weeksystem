@@ -1,9 +1,11 @@
+#!/usr/bin/python
+#-*-coding:utf-8 -*-
 import time
 from flask import render_template,request,redirect,url_for,flash,session,current_app
-from flask_login import login_required
+from flask_login import login_required,current_user
 from .. import db
 from ..zhoubaos import zhoubaos
-from ..models import Users,Role,Groups,Daydata
+from ..models import Users,Groups,Daydata
 
 @zhoubaos.route('/search')
 @login_required
@@ -17,15 +19,28 @@ def zbusers():
 #	elif session['role'] == 'user':
 	else:
 		groupid = db.session.query(Groups.id).filter_by(name=str(session['role'])).first()
-		users = db.session.query(Users.name).filter_by(groups_id=groupid.id).order_by(User.name).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
-                usersitem=users.items
-		return render_template('zbusers.html',usersitem=usersitem,paginate=users)
+		if groupid is not None:
+			users = db.session.query(Users.name).filter_by(groups_id=groupid.id).order_by(Users.name).paginate(page,
+			                                                                                                   per_page=
+			                                                                                                   current_app.config[
+				                                                                                                   'FLASKY_POSTS_PER_PAGE'],
+			                                                                                                   error_out=False)
+			usersitem = users.items
+			return render_template('zbusers.html', usersitem=usersitem, paginate=users)
+		else:
+			flash("数据为空！")
+			return redirect(url_for('main.index'))
 
+#个人上周周报
 @zhoubaos.route('/<name>')
 @login_required
 def zbdata(name):
-	data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-	return render_template('zbdata.html',data=data,name=name)
+	if name == str(current_user.name):
+		data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
+		return render_template('zbdata.html',data=data,name=name)
+	else:
+		flash("没有权限！")
+		return redirect(url_for('main.index'))
 
 @zhoubaos.route('/groups/<name>')
 @login_required

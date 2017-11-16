@@ -4,7 +4,7 @@ from flask_login import login_user,logout_user,login_required,current_user
 from flask import flash,redirect,url_for,render_template,session,request
 from .forms import LoginForm,UseraddForm,ChangepwForm
 from .. import db
-from ..models import Users,Role,Groups
+from ..models import Users,Role
 
 @login.route('/',methods = ['GET','POST'])
 def denglu():
@@ -42,7 +42,6 @@ def useradd():
                 if myform.validate_on_submit():
                     u = Users()
                     u.password_hash = myform.passwd.data
-        #                user = Users(name=myform.username.data,passwd=u.passwd)
                     u.name = myform.username.data
                     u.role_id = 2
                     u.groups_id = myform.groups.data

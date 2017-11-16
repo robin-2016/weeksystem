@@ -1,9 +1,12 @@
-from flask import render_template,request,redirect,url_for,flash,current_app
+#!/usr/bin/python
+#-*-coding:utf-8-*-
+from flask import render_template,request,redirect,url_for,flash,current_app,session
 from flask_login import login_required
 from .. import db
 from ..muser import muser
 from ..models import Users,Role,Groups
 from .forms import MuserForm
+from werkzeug.security import generate_password_hash
 
 @muser.route('/main')
 @login_required
@@ -35,8 +38,23 @@ def usersdo(id):
 			udata.groups_id=request.form['groups']
 			db.session.add(udata)
 			db.session.commit()
-			return redirect(url_for('muser.susers'))
+			flash("修改成功！")
+			return redirect(url_for('muser.musermain'))
 		else:
 			flash('Update fialed!!!')
 			return render_template('muserdo.html',myform=myform)
 	return render_template('muserdo.html',myform=myform)
+
+@muser.route('/pw/<id>')
+@login_required
+def mpw(id):
+	if session['role'] =='admin':
+		userchangepw = Users.query.filter_by(id=id).first()
+		userchangepw.password_hash=str(0)
+		db.session.add(userchangepw)
+		db.session.commit()
+		flash("重置成功！")
+		return redirect(url_for('muser.musermain'))
+	else:
+		flash("没有权限！")
+		return redirect(url_for('muser.musermain'))

@@ -5,36 +5,35 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 import time,datetime
 from flask_wtf import FlaskForm
-from wtforms import validators,SubmitField,StringField,SelectField,ValidationError,TextAreaField,FloatField,IntegerField
+from wtforms import validators,SubmitField,StringField,SelectField,ValidationError,TextAreaField
 from ..models import Groups,Users
-from flask_login import current_user
-#from .. import db
 
-#prodectid=db.session.query(Users.groups_id).filter_by(name=(str(current_user.name))).first()
-#projectid=Users.query.filter_by(name=(str(current_user.name))).first()
+class JcForm(FlaskForm):
+	something0 = TextAreaField("*工作内容1：", [validators.data_required(message="工作内容1为空！"),
+	                                       validators.Length(1, 400, message="工作内容1长度超出400限制！")])
+	worktime0 = StringField("当日工作量1（H）：（注意：填写数字即可）",
+	                        [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量1只能使用两位以内数字')])
+	completed0 = StringField("周完成情况1（%）：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况1只能使用三位以内数字')])
+	something1 = TextAreaField("工作内容2：", [validators.Length(0, 400, message="工作内容2长度超出400限制！")])
+	worktime1 = StringField("当日工作量2:", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量2只能使用两位以内数字')])
+	completed1 = StringField("周完成情况2：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况2只能使用三位以内数字')])
+	something2 = TextAreaField("工作内容3：", [validators.Length(0, 400, message="工作内容3长度超出400限制！")])
+	worktime2 = StringField("当日工作量3:", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量3只能使用两位以内数字')])
+	completed2 = StringField("周完成情况3：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况3只能使用三位以内数字')])
+	something3 = TextAreaField("工作内容4：", [validators.Length(0, 400, message="工作内容4长度超出400限制！")])
+	worktime3 = StringField("当日工作量4:", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量4只能使用两位以内数字')])
+	completed3 = StringField("周完成情况4：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况4只能使用三位以内数字')])
+	more0 = TextAreaField("更多：", [validators.Length(0, 400, message="更多内容长度超出400限制！")])
+	more1 = StringField("更多当日工作量：", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '更多工作量只能使用两位以内数字')])
+	more2 = StringField("更多周完成情况：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '更多周完成情况只能使用三位以内数字')])
+	submit = SubmitField("提交")
+
 dweek=(datetime.datetime.now()).weekday()
-class InsertForm(FlaskForm):
+class InsertForm(JcForm):
 	yearweek = SelectField("*周数：",coerce=int)
 	week = SelectField("*星期：",coerce=int,default=dweek)
 #	project = SelectField("*项目：",coerce=int,default=projectid.groups_id)
 	project = SelectField("*项目：",coerce=int)
-	something0 = TextAreaField("*工作内容1：",[validators.Required()])
-	worktime0 = FloatField("当日工作量1（H）：（注意：填写数字即可）",[validators.Optional()])
-	completed0 = IntegerField("周完成情况1（%）：",[validators.Optional()])
-	something1 = TextAreaField("工作内容2：")
-	worktime1 = FloatField("当日工作量2:",[validators.Optional()])
-	completed1 = IntegerField("周完成情况2：",[validators.Optional()])
-	something2 = TextAreaField("工作内容3：")
-	worktime2 = FloatField("当日工作量3:",[validators.Optional()])
-	completed2 = IntegerField("周完成情况3：",[validators.Optional()])
-	something3 = TextAreaField("工作内容4：")
-	worktime3 = FloatField("当日工作量4:",[validators.Optional()])
-	completed3 = IntegerField("周完成情况4：",[validators.Optional()])
-	more0 = TextAreaField("更多：")
-	more1 = FloatField("更多当日工作量：",[validators.Optional()])
-	more2 = IntegerField("更多周完成情况：",[validators.Optional()])
-	submit = SubmitField("提交")
-	
 
 	def __init__(self,*args,**kwargs):
 		super(InsertForm,self).__init__(*args,**kwargs)
@@ -47,20 +46,5 @@ class InsertForm(FlaskForm):
 		self.project.choices = [(project.id,project.name)
 				for project in Groups.query.order_by(Groups.name).all()]
 
-class UpdateForm(FlaskForm):
-	something0 = TextAreaField("*工作内容1：",[validators.Required()])
-	worktime0 = FloatField("当日工作量1（H）：（注意：填写数字即可）",[validators.Optional()])
-	completed0 = IntegerField("周完成情况1（%）：",[validators.Optional()])
-	something1 = TextAreaField("工作内容2：")
-	worktime1 = FloatField("当日工作量2:",[validators.Optional()])
-	completed1 = IntegerField("周完成情况2：",[validators.Optional()])
-	something2 = TextAreaField("工作内容3：")
-	worktime2 = FloatField("当日工作量3:",[validators.Optional()])
-	completed2 = IntegerField("周完成情况3：",[validators.Optional()])
-	something3 = TextAreaField("工作内容4：")
-	worktime3 = FloatField("当日工作量4:",[validators.Optional()])
-	completed3 = IntegerField("周完成情况4：",[validators.Optional()])
-	more0 = TextAreaField("更多：")
-	more1 = FloatField("更多当日工作量：",[validators.Optional()])
-	more2 = IntegerField("更多周完成情况：",[validators.Optional()])
-	submit = SubmitField("提交")
+class UpdateForm(JcForm):
+	pass

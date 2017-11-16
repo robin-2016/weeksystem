@@ -2,13 +2,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 {% block content %}
+<div class="container">
 {% for message in get_flashed_messages() %}
 <div class="alert alert-warning">
 <button type="button" class="close" data-dismiss="alert">x</button>
 {{ message }}
 </div>
 {% endfor %}
-<div class="container">
 	<table class="table table-bordered">
 	<thead>
 	<tr>
@@ -17,6 +17,7 @@
 	<th>所属项目</th>
 	<th>最后登录时间</th>
 	<th>操作</th>
+	<th>重置密码</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -27,6 +28,7 @@
 		<th>{{i[3]}}</th>
 		<th>{{i[4]}}</th>
 		<th><a href="/muser/auth/{{i[0]}}">权限变更</a></th>
+		<th><a href="/muser/pw/{{i[0]}}">重置密码</a></th>
 		</tr>
 		{%endfor%}
 	</tbody>

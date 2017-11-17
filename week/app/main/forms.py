@@ -28,10 +28,9 @@ class JcForm(FlaskForm):
 	more2 = StringField("更多周完成情况：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '更多周完成情况只能使用三位以内数字')])
 	submit = SubmitField("提交")
 
-dweek=(datetime.datetime.now()).weekday()
 class InsertForm(JcForm):
 	yearweek = SelectField("*周数：",coerce=int)
-	week = SelectField("*星期：",coerce=int,default=dweek)
+	week = SelectField("*星期：",coerce=int,default=((datetime.datetime.now()).weekday()))
 #	project = SelectField("*项目：",coerce=int,default=projectid.groups_id)
 	project = SelectField("*项目：",coerce=int)
 

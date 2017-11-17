@@ -1,10 +1,16 @@
-# 周报系统部署
+![](https://img.shields.io/badge/language-python-blue.svg)![](https://img.shields.io/badge/platform-linux-lightgrey.svg)
+
+##简介
+
+​	周报系统是为团队和小型企业提供周报统计功能的系统。统计内容包括提交时间、提交数量和工作时间，未完成的人员会出现在统计列表中，完成的则不会出现，减轻周报统计的压力。
+
+##周报系统部署
 
 框架：Flask
 
 推荐使用：nginx + uwsgi + supervisor + flask + mysql
 
-####部署步骤：
+###部署步骤：
 
 - nginx的使用不再说明
 
@@ -31,6 +37,16 @@
   &gt; &gt; &gt;Role.insert_role()
 
    &gt; &gt; &gt;Groups.insert_groups()
+
+  数据库变化使用Flask-migrate迁移框架
+
+  初始化：python manage.py init
+
+  使用迁移脚本：python manage.py db migrate
+
+  更新数据库：python manage.py db upgrade
+
+  之后更新只执行后两步
 
 - 安装pip和Flask依赖
 

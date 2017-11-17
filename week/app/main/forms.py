@@ -11,21 +11,21 @@ from ..models import Groups,Users
 class JcForm(FlaskForm):
 	something0 = TextAreaField("*工作内容1：", [validators.data_required(message="工作内容1为空！"),
 	                                       validators.Length(1, 400, message="工作内容1长度超出400限制！")])
-	worktime0 = StringField("当日工作量1（H）：（注意：填写数字即可）",
-	                        [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量1只能使用两位以内数字')])
-	completed0 = StringField("周完成情况1（%）：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况1只能使用三位以内数字')])
+	worktime0 = StringField("当日工作量1（/小时）：（注意：填写数字即可）",
+	                        [validators.Optional(), validators.regexp('^((([1-9])|(1[0-9])|(2[0-4]))|((([1-9])|(1[0-9])|(2[0-4])).\d))$', 0, '工作量1超出1-24范围')])
+	completed0 = StringField("周完成情况1（/%）：", [validators.Optional(), validators.regexp('^100$|^(\d|[1-9]\d)$', 0, '周完成情况1超出0-100范围')])
 	something1 = TextAreaField("工作内容2：", [validators.Length(0, 400, message="工作内容2长度超出400限制！")])
-	worktime1 = StringField("当日工作量2:", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量2只能使用两位以内数字')])
-	completed1 = StringField("周完成情况2：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况2只能使用三位以内数字')])
+	worktime1 = StringField("当日工作量2:", [validators.Optional(), validators.regexp('^((([1-9])|(1[0-9])|(2[0-4]))|((([1-9])|(1[0-9])|(2[0-4])).\d))$', 0, '工作量2超出1-24范围')])
+	completed1 = StringField("周完成情况2：", [validators.Optional(), validators.regexp('^100$|^(\d|[1-9]\d)$', 0, '周完成情况2超出0-100范围')])
 	something2 = TextAreaField("工作内容3：", [validators.Length(0, 400, message="工作内容3长度超出400限制！")])
-	worktime2 = StringField("当日工作量3:", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量3只能使用两位以内数字')])
-	completed2 = StringField("周完成情况3：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况3只能使用三位以内数字')])
+	worktime2 = StringField("当日工作量3:", [validators.Optional(), validators.regexp('^((([1-9])|(1[0-9])|(2[0-4]))|((([1-9])|(1[0-9])|(2[0-4])).\d))$', 0, '工作量3超出1-24范围')])
+	completed2 = StringField("周完成情况3：", [validators.Optional(), validators.regexp('^100$|^(\d|[1-9]\d)$', 0, '周完成情况3超出0-100范围')])
 	something3 = TextAreaField("工作内容4：", [validators.Length(0, 400, message="工作内容4长度超出400限制！")])
-	worktime3 = StringField("当日工作量4:", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '工作量4只能使用两位以内数字')])
-	completed3 = StringField("周完成情况4：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '周完成情况4只能使用三位以内数字')])
+	worktime3 = StringField("当日工作量4:", [validators.Optional(), validators.regexp('^((([1-9])|(1[0-9])|(2[0-4]))|((([1-9])|(1[0-9])|(2[0-4])).\d))$', 0, '工作量4超出1-24范围')])
+	completed3 = StringField("周完成情况4：", [validators.Optional(), validators.regexp('^100$|^(\d|[1-9]\d)$', 0, '周完成情况4超出0-100范围')])
 	more0 = TextAreaField("更多：", [validators.Length(0, 400, message="更多内容长度超出400限制！")])
-	more1 = StringField("更多当日工作量：", [validators.Optional(), validators.regexp('^\d{1,2}$', 0, '更多工作量只能使用两位以内数字')])
-	more2 = StringField("更多周完成情况：", [validators.Optional(), validators.regexp('^\d{1,3}$', 0, '更多周完成情况只能使用三位以内数字')])
+	more1 = StringField("更多当日工作量：", [validators.Optional(), validators.regexp('^((([1-9])|(1[0-9])|(2[0-4]))|((([1-9])|(1[0-9])|(2[0-4])).\d))$', 0, '更多工作量超出1-24范围')])
+	more2 = StringField("更多周完成情况：", [validators.Optional(), validators.regexp('^100$|^(\d|[1-9]\d)$', 0, '更多周完成情况超出0-100范围')])
 	submit = SubmitField("提交")
 
 class InsertForm(JcForm):

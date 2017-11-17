@@ -1,10 +1,10 @@
-![](https://img.shields.io/badge/language-python-blue.svg)![](https://img.shields.io/badge/platform-linux-lightgrey.svg)
+![](https://img.shields.io/badge/language-python-blue.svg)! [](https://img.shields.io/badge/platform-linux-lightgrey.svg)
 
-##简介
+#简介
 
 ​	周报系统是为团队和小型企业提供周报统计功能的系统。统计内容包括提交时间、提交数量和工作时间，未完成的人员会出现在统计列表中，完成的则不会出现，减轻周报统计的压力。
 
-##周报系统部署
+#周报系统部署
 
 框架：Flask
 

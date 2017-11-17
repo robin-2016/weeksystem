@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/language-python-blue.svg)! [](https://img.shields.io/badge/platform-linux-lightgrey.svg)
+![](https://img.shields.io/badge/language-python-blue.svg) ![](https://img.shields.io/badge/platform-linux-lightgrey.svg)
 
 #简介
 

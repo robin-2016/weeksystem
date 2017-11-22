@@ -27,6 +27,7 @@ def insert():
 	projectid=Users.query.filter_by(name=(str(current_user.name))).first()
 	if request.method == 'GET':
 		myform.project.data=projectid.groups_id
+		myform.week.data=((datetime.now()).weekday())
 	if request.method == 'POST':
 		if myform.validate_on_submit():
 			if Daydata.query.filter_by(user=str(current_user.name)).filter_by(yearweek=int(request.form['yearweek'])).filter_by(week=request.form['week']).first() is None:

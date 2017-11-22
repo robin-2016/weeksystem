@@ -30,7 +30,7 @@ class JcForm(FlaskForm):
 
 class InsertForm(JcForm):
 	yearweek = SelectField("*周数：",coerce=int)
-	week = SelectField("*星期：",coerce=int,default=((datetime.datetime.now()).weekday()))
+	week = SelectField("*星期：",coerce=int)
 #	project = SelectField("*项目：",coerce=int,default=projectid.groups_id)
 	project = SelectField("*项目：",coerce=int)
 

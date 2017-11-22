@@ -59,23 +59,23 @@ def compute():
 				tlist.append(b.time)
 			maxtlist = max(tlist)
 			if maxtlist > montime:
-				uptime.append((i[0],i[1],maxtlist))
+				uptime.append((i[1],i[0],maxtlist))
 		else:
-			uptime.append((i[0],i[1],''))
+			uptime.append((i[1],i[0],''))
 		if len(data) < weekday:
-			zhoubao.append((i[0],i[1],(weekday-len(data))))
+			zhoubao.append((i[1],i[0],(weekday-len(data))))
 		wk = int(0)
 		for a in data:
 			wk = wk + a.worktime
 		if wk < weekday*8:
-			wtime.append((i[0],i[1],(weekday*8-wk)))
+			wtime.append((i[1],i[0],(weekday*8-wk)))
 	if os.path.exists('/root/zbdata/')==False:
 		os.makedirs('/root/zbdata/')
 	with open('/root/zbdata/'+str(yweek),'w') as f:
 		f.write(str(uptime)+'\n')
 		f.write(str(zhoubao)+'\n')
 		f.write(str(wtime)+'\n')
-	return render_template('result.html',uptime=uptime,zhoubao=zhoubao,wtime=wtime,yweeklabel=yweeklabel)	
+	return render_template('result.html',uptime=sorted(uptime),zhoubao=sorted(zhoubao),wtime=sorted(wtime),yweeklabel=yweeklabel)
 
 def qiuhe(l):
 	lists_c = []
@@ -140,8 +140,8 @@ def hebing():
 		uptimes_c.append(i[0])
 	zhoubao=qiuhe(zhoubaos)
 	wtime=qiuhe(wtimes)
-#	print zhoubao
-#	print wtime
+	# print zhoubao
+	# print wtime
 #	print Counter(uptimes_c)
 	uptime = Counter(uptimes_c)
-	return render_template('yueresult.html',uptime=uptime,zhoubao=zhoubao,wtime=wtime)	
+	return render_template('yueresult.html',uptime=uptime,zhoubao=zhoubao,wtime=wtime,fweek=fweek,lweek=lweek-1,nweek=time.strftime("%W"))

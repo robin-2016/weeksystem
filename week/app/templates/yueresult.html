@@ -11,7 +11,7 @@
 </div>
 <div>
         <table class="table table-bordered">
-        <thead><th class="text-center" colspan="5"><h3>上月统计结果</h3></th></thead>
+            <thead><th class="text-center" colspan="5"><h3>上月统计结果</h3><h5>（{{fweek}}周到{{lweek}}周，当前为{{nweek}}周）</h5></th></thead>
 	</table>
 </div>
 <div class="row">
@@ -41,8 +41,8 @@
         <tbody>
 	{%for i in zhoubao%}
 	<tr>
-	<th>{{i[0]}}</th>
 	<th>{{i[1]}}</th>
+	<th>{{i[0]}}</th>
 	<th>{{i[2]}}</th>
 	</tr>
 	{%endfor%}
@@ -59,9 +59,9 @@
         <tbody>
         {%for i in wtime%}
         <tr>
-        <th>{{i[0]}}</th>
         <th>{{i[1]}}</th>
-	<th>{{i[2]}}</th>
+        <th>{{i[0]}}</th>
+	    <th>{{i[2]}}</th>
         </tr>
         {%endfor%}
 	</tbody>

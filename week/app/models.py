@@ -30,7 +30,7 @@ class Role(db.Model):
 
 	@staticmethod
 	def insert_role():
-		for r in ["admin","user","renli","noting"]:
+		for r in ["admin","user","renli","nothing"]:
 			role = Role.query.filter_by(name=r).first()
 			if role is None:
 				role = Role(name=r)

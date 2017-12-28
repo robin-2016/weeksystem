@@ -75,3 +75,15 @@ class Daydata(db.Model):
 	time = db.Column(db.DateTime)
 	yearweek = db.Column(db.Integer)
 	week = db.Column(db.Integer)
+
+class Newdata(db.Model):
+	__tablename__='newdata'
+	id = db.Column(db.Integer,primary_key=True)
+	user = db.Column(db.String(100))
+	project_id = db.Column(db.Integer)
+	completed = db.Column(db.String(5))
+	something = db.Column(db.Text)
+	worktime = db.Column(db.String(5))
+	time = db.Column(db.DateTime)
+	yearweek = db.Column(db.Integer)
+	week = db.Column(db.Integer)

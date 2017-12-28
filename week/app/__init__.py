@@ -31,4 +31,6 @@ def creat_app(config_name):
 	app.register_blueprint(zhoubaos_blueprint,url_prefix='/zhoubaos')
 	from .tongji import tongji as tongji_blueprint
 	app.register_blueprint(tongji_blueprint)
+	from .data import data as data_blueprint
+	app.register_blueprint(data_blueprint)
 	return app

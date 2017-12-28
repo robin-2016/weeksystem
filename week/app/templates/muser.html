@@ -23,12 +23,12 @@
 	<tbody>
 		{%for i in usersitem%}
 		<tr>
-		<th>{{i[1]}}</th>
-		<th>{{i[2]}}</th>
-		<th>{{i[3]}}</th>
-		<th>{{i[4]}}</th>
-		<th><a href="/muser/auth/{{i[0]}}">权限变更</a></th>
-		<th><a href="/muser/pw/{{i[0]}}">重置密码</a></th>
+		<td>{{i[1]}}</td>
+		<td>{{i[2]}}</td>
+		<td>{{i[3]}}</td>
+		<td>{{i[4]}}</td>
+		<td><a href="/muser/auth/{{i[0]}}">权限变更</a></td>
+		<td><a href="/muser/pw/{{i[0]}}">重置密码</a></td>
 		</tr>
 		{%endfor%}
 	</tbody>

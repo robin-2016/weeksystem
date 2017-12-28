@@ -10,7 +10,7 @@
 </div>
 {% endfor %}
 <div class="col-lg-3 pull-right">
-<a href="/insert"><button type="button" class="btn btn-default">提交工作量（天）</button></a>
+<a href="/lastinsert"><button type="button" class="btn btn-default">提交工作量（天）</button></a>
 </div>
 </div>
 <div>
@@ -22,23 +22,23 @@
 	<th>周完成情况</th>
 	<th>工作内容</th>
 	<th>时间记录</th>
-	<th>操作</th>
+	<th>修改</th>
 	<th>删除</th>
 	<tbody>
 		{%for i in data%}
 		<tr>
-		<th>{{i[1]}}</th>
-		<th>{{i[0].worktime}}</th>
-		<th>{{i[0].completed}}</th>
+		<td>{{i[1]}}</td>
+		<td>{{i[0].worktime}}</td>
+		<td>{{i[0].completed}}</td>
 		<td width="50%">
 {%if i[0].something0 != ''%}{{i[0].something0}}<br/>{%endif%}
 {%if i[0].something1 != ''%}{{i[0].something1}}<br/>{%endif%}
 {%if i[0].something2 != ''%}{{i[0].something2}}<br/>{%endif%}
 {%if i[0].something3 != ''%}{{i[0].something3}}<br/>{%endif%}
 {%if i[0].more0 != ''%}{{i[0].more0}}<br/>{%endif%}
-		<th>{{{0:'星期一',1:'星期二',2:'星期三',3:'星期四',4:'星期五',5:'星期六',6:'星期日'}[i[0].week]}}</th>
-		<th><a href="/update/{{i[0].id}}">修改</a></th>
-		<th><a href="/deldata/{{i[0].id}}">删除</a></th>
+		<td>{{{0:'星期一',1:'星期二',2:'星期三',3:'星期四',4:'星期五',5:'星期六',6:'星期日'}[i[0].week]}}</td>
+		<td><a href="/update/{{i[0].id}}">修改</a></td>
+		<td><a href="/deldata/{{i[0].id}}">删除</a></td>
 		</tr>
 		{%endfor%}
 	</tbody>

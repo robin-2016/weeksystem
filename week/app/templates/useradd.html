@@ -15,4 +15,11 @@
 	{{ wtf.quick_form(form) }}
 	</div>
 </div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="{{url_for('static',filename='zhuce.js')}}"></script>
 {% endblock %}
+<!--如果需要引用css和js，和之前的顺序冲突，可以先引入，在把之前模板中的置空    -->
+{% block scripts %}
+{%- endblock scripts %}
+

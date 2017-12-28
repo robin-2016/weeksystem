@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container">
+        {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+        {{ message }}
+        </div>
+        {% endfor %}
+</div>
+<div>
+	<div action=""method="POST" class="form" extra_classes=None role="form" form_type="basic">
+	{{form.hidden_tag()}}
+	<div class="container-fluid">
+		<div class="col-lg-2 form-group">
+        {{form.project0.label}}{{form.project0(class="form-control")}}</div>
+	<div class="col-lg-2 form-group">
+		{{form.week0.label}}{{form.week0(class="form-control")}}</div>
+	<div class="col-lg-4 form-group">
+	{{form.something0.label}}{{form.something0(class="form-control")}}</div>
+	<div class="col-lg-2 form-group">
+	{{form.worktime0.label}}{{form.worktime0(class="form-control")}}</div>
+	<div class="col-lg-2 form-group">
+	{{form.completed0.label}}{{form.completed0(class="form-control")}}</div>
+	</div>
+	<div class="container-fluid">
+	<div class="col-lg-2">	
+        {{form.project1(class="form-control")}}</div>
+		<div class="col-lg-2">
+		{{form.week1(class="form-control")}}</div>
+	<div class="col-lg-4 form-group">
+	{{form.something1(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.worktime1(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.completed1(class="form-control")}}</div>
+	</div>
+	<div class="container-fluid">
+	<div class="col-lg-2">
+       {{form.project2(class="form-control")}}</div>
+	<div class="col-lg-2">
+		{{form.week2(class="form-control")}}</div>
+	<div class="col-lg-4 form-group">
+	{{form.something2(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.worktime2(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.completed2(class="form-control")}}</div>
+	</div>
+	<div class="container-fluid">
+	<div class="col-lg-2">
+	{{form.project3(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.week3(class="form-control")}}</div>
+	<div class="col-lg-4 form-group">
+	{{form.something3(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.worktime3(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.completed3(class="form-control")}}</div>
+	</div>
+	<div class="container-fluid">
+	<div class="col-lg-2">
+     {{form.project4(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.week4(class="form-control")}}</div>
+	<div class="col-lg-4 form-group">
+	{{form.more0(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.more1(class="form-control")}}</div>
+	<div class="col-lg-2">
+	{{form.more2(class="form-control")}}</div>
+	</div>
+
+<div class="container">
+    <div class="col-lg-2 form-group">
+	{{form.submit(class="btn btn-default")}}</div>
+</div>
+</div>
+</div>
+{% endblock %}

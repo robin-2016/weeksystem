@@ -6,13 +6,38 @@ from ..main import main
 from flask import render_template,request,redirect,url_for,flash
 from flask_login import login_required,current_user
 from .. import db
-from ..models import Daydata,Groups,Users
+from ..models import Daydata,Groups,Users,Newdata
 from .forms import InsertForm,UpdateForm
 
 @main.route('/main')
 @login_required
 def index():
-	data = db.session.query(Daydata,Groups.name).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
+	# data = db.session.query(Daydata,Groups.name).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
+	data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Newdata.week).all()
+	print data
+	projectid = Users.query.filter_by(name=str(current_user.name)).first().groups_id
+	# 初始化数据汇总时变量
+	worktime = 0
+	completed = 0
+	something = ""
+	weekjilu = 0
+	projectjia = ""
+	c = 0
+	for b in data:
+		if b.week == weekjilu:
+			worktime = worktime + int(b.worktime)
+			something= something +b.something +'<br>'
+			completed = completed + int(b.completed)
+			# if b.project_id == projectid:
+			c = c +1
+		else:
+			weekjilu = b.week
+			completed = completed/c
+		# if i[0].week == 0 :
+		# 	worktime = worktime +int(i[0].worktime)
+		#
+		# 	something.append(i[0].something)
+		# 	c += 1
 	return render_template('main.html',data=data)
 
 @main.route('/insert',methods = ['GET','POST'])

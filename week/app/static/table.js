@@ -49,10 +49,38 @@ var TableInit = function () {
                 title: '所属项目',
                 editable:{
                     type:'select',
-                    source:[
-                        {value:6,text:'运维'},
-                        {value:7,text:'test'}
-                    ],
+                    // sourceCache:true,
+                    // async:false,
+                    source: function () {
+                        var result = [];
+                         $.ajax({
+                            url:'/groups',
+                            type:'GET',
+                            async:false,
+                            // dataType:'JSON',
+                            data:{},
+                            success:function (data) {
+                                $.each(data,function (key,value) {
+                                    result.push({value:parseInt(key),text:value});
+                                });
+                            }
+                        });
+                         return result;
+                            // .done(function (data) {
+                            //     // for (k in data){
+                            //     //     // return {value:k,text:data[k]};
+                            //     //     result.push({value:parseInt(k),text:data[k]});
+                            //     // }
+                            //     $.each(data,function (key,value) {
+                            //         result.push({value:parseInt(key),text:value});
+                            //     });
+                            //     console.log(result);
+                            //     return result;
+                            // })
+                            // .fail(function () {
+                            //     console.log("读取项目数据失败，请刷新重试！");
+                            // });
+                    },
                     validate: function (v) {
                         if (!v) return '项目不能为空';
                     }
@@ -180,7 +208,7 @@ var ROWDEL = function () {
                 data:{'ids':idsstr},
                 dataType:'JSON'
                 })
-                .done(function (data) {
+                .done(function () {
                     $("#tb_departments").bootstrapTable('remove',{
                             field:'id',
                             values:ids

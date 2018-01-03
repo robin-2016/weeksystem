@@ -14,31 +14,54 @@ from .forms import InsertForm,UpdateForm
 def index():
 	# data = db.session.query(Daydata,Groups.name).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
 	data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Newdata.week).all()
-	print data
-	projectid = Users.query.filter_by(name=str(current_user.name)).first().groups_id
-	# 初始化数据汇总时变量
-	worktime = 0
-	completed = 0
-	something = ""
 	weekjilu = 0
-	projectjia = ""
-	c = 0
-	for b in data:
-		if b.week == weekjilu:
-			worktime = worktime + int(b.worktime)
-			something= something +b.something +'<br>'
-			completed = completed + int(b.completed)
-			# if b.project_id == projectid:
-			c = c +1
+	weekdata = []
+	# print data
+	while weekjilu < 7                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  :
+		# 初始化数据汇总时变量
+		# print "当前data字典的长度:%d" % len(data)
+		if data == []:
+			break
+		worktime = 0
+		completed = 0
+		something = ""
+		projectjia = ""
+		c = 0
+		i = 0
+		weekzidian = {}
+		for b in data:
+			# print "b.week:%d" %b.week
+			# print "weekjilu:%d" %weekjilu
+			if b.week == weekjilu:
+				worktime = worktime + int(b.worktime)
+				something= something +b.something + '<br/>'
+				completed = completed + int(b.completed)
+				projectjia = projectjia + str(getgroups(b.project_id)) + '<br/>'
+				c = c +1
+				# print "当前b值：%s" %b
+				# data.remove(b)
+				# del data[i]
+			# print b
+			i += 1
+			# print "循环次数:%d" %i
+		weekzidian['project_id'] = projectjia
+		weekzidian['worktime'] = worktime
+		if c ==0 :
+			weekzidian['completed'] = 0
 		else:
-			weekjilu = b.week
-			completed = completed/c
-		# if i[0].week == 0 :
-		# 	worktime = worktime +int(i[0].worktime)
-		#
-		# 	something.append(i[0].something)
-		# 	c += 1
-	return render_template('main.html',data=data)
+			weekzidian['completed'] = completed/c
+		weekzidian['something'] = something
+		weekzidian['week'] = weekjilu
+		weekdata.append(weekzidian)
+		# print"当前周记录值：%d" %weekjilu
+		weekjilu = weekjilu +1
+	print weekdata
+	return render_template('main.html',data=weekdata)
+
+# 根据id查询名称
+def getgroups(id):
+	gname = Groups.query.filter_by(id=id).first().name
+	return gname
 
 @main.route('/insert',methods = ['GET','POST'])
 @main.route('/lastinsert',methods = ['GET','POST'])

@@ -22,17 +22,19 @@
 	<th>周完成情况</th>
 	<th>工作内容</th>
 	<th>时间记录</th>
+	</tr>
 	<tbody>
 		{%for i in data%}
 		<tr>
-		<td>{{i.project_id}}</td>
+		<td>{{i.project_id|safe}}</td>
 		<td>{{i.worktime}}</td>
 		<td>{{i.completed}}</td>
 		<td width="50%">
-			{%if i.something != ''%}{{i.something}}<br/>{%endif%}
+			{{i.something|safe}}</td>
 		<td>{{{0:'星期一',1:'星期二',2:'星期三',3:'星期四',4:'星期五',5:'星期六',6:'星期日'}[i.week]}}</td>
 		</tr>
 		{%endfor%}
 	</tbody>
+	</table>
 </div>
 {% endblock %}

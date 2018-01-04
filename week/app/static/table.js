@@ -66,20 +66,6 @@ var TableInit = function () {
                             }
                         });
                          return result;
-                            // .done(function (data) {
-                            //     // for (k in data){
-                            //     //     // return {value:k,text:data[k]};
-                            //     //     result.push({value:parseInt(k),text:data[k]});
-                            //     // }
-                            //     $.each(data,function (key,value) {
-                            //         result.push({value:parseInt(key),text:value});
-                            //     });
-                            //     console.log(result);
-                            //     return result;
-                            // })
-                            // .fail(function () {
-                            //     console.log("读取项目数据失败，请刷新重试！");
-                            // });
                     },
                     validate: function (v) {
                         if (!v) return '项目不能为空';
@@ -205,7 +191,7 @@ var ROWDEL = function () {
             $.ajax({
                 url:'/del/newdata',
                 type:'POST',
-                data:{'ids':idsstr},
+                data:{'id':idsstr},
                 dataType:'JSON'
                 })
                 .done(function () {
@@ -228,25 +214,50 @@ var ROWDEL = function () {
 var ROWINS = function () {
     // $(".form").submit()
     //表单验证
-    var something = $("#something").val();
-    var worktime = $("#worktime").val();
-    var  completed = $("#completed").val();
-    if (something.length >400){
-        alert("工作内容数据过长！")
-        return false;
+    var yz1 = false;
+    var yz2 = false;
+    var yz3 = false;
+    var something = $("#something");
+    var worktime = $("#worktime");
+    var  completed = $("#completed");
+    if (something.val() ==null || something.val() ==""){
+        something.next().remove();
+        something.parent().addClass("has-error");
+        something.parent().append("<p class=\"help-block\">工作内容不能为空！</p>");
     }
-    if (something ==null || something ==""){
-        alert("工作内容不能为空！")
-        return false;
+    else if (something.val().length > 400){
+        something.next().remove();
+        something.parent().addClass("has-error");
+        something.parent().append("<p class=\"help-block\">工作内容数据过长！</p>");
+    }
+    else {
+        something.parent().removeClass("has-error");
+        something.next().remove();
+        yz1 = true;
     }
     var worktiemre = /^[1-9]$|^1[0-9]$|^2[0-4]$|^[0-9]\.\d$|^1[0-9]\.\d$|^2[0-3]\.\d$/g;
-    if (!worktiemre.test(worktime)){
-        alert("工作量不能为空或超出1-24范围！")
-        return false;
+    if (!worktiemre.test(worktime.val())){
+        worktime.next().remove();
+        worktime.parent().addClass("has-error");
+        worktime.parent().append("<p class=\"help-block\">工作量不能为空或超出1-24范围！</p>");
+    }
+    else {
+        worktime.parent().removeClass("has-error");
+        worktime.next().remove();
+        yz2 = true;
     }
     var completedre = /^100$|^\d$|^[1-9]\d$/g;
-    if (!completedre.test(completed)) {
-        alert("周完成情况不能为空或超出0-100范围！")
+    if (!completedre.test(completed.val())) {
+        completed.next().remove();
+        completed.parent().addClass("has-error");
+        completed.parent().append("<p class=\"help-block\">周完成情况不能为空或超出0-100范围！</p>");
+    }
+    else {
+        completed.parent().removeClass("has-error");
+        completed.next().remove();
+        yz3 = true;
+    }
+    if (yz1 ==false || yz2 == false || yz3 == false){
         return false;
     }
     var data = $(".form").serialize();
@@ -255,7 +266,7 @@ var ROWINS = function () {
         url:"/insert/post",
         data: data,
         success : function () {
-            console.log("提交成功！");
+            // console.log("提交成功！");
             $("#myModal").modal('hide');
             $('#tb_departments').bootstrapTable('refresh');
             // $("#myModal").removeData("bs.modal");

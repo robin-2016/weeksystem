@@ -63,7 +63,7 @@ def editableup():
 @data.route('/del/newdata',methods=['POST'])
 @login_required
 def newdatadel():
-	dataid = request.form['ids']
+	dataid = request.form['id']
 	idlist = dataid.encode('utf-8').split(",")
 	for i in idlist:
 		db.session.delete(Newdata.query.filter_by(id=int(i)).first())

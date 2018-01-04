@@ -36,8 +36,14 @@ def zbusers():
 @login_required
 def zbdata(name):
 	if name == str(current_user.name):
-		data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-		return render_template('zbdata.html',data=data,name=name)
+		if int(time.strftime("%W")) == 1:
+			data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=52).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
+			return render_template('zbdata.html',data=data,name=name)
+		else:
+			data = db.session.query(Daydata, Groups.name).filter_by(user=str(name)).filter_by(
+				yearweek=(int(time.strftime("%W")) - 1)).order_by(Daydata.week).outerjoin(Groups,
+			                                                                              Daydata.project_id == Groups.id).limit(7).all()
+			return render_template('zbdata.html', data=data, name=name)
 	else:
 		flash("没有权限！")
 		return redirect(url_for('main.index'))
@@ -45,5 +51,10 @@ def zbdata(name):
 @zhoubaos.route('/groups/<name>')
 @login_required
 def zbdata_groups(name):
-	data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-	return render_template('zbdata_groups.html',data=data,name=name)
+	if int(time.strftime("%W")) == 1:
+		data = db.session.query(Daydata, Groups.name).filter_by(user=str(name)).filter_by(
+			yearweek=52).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id == Groups.id).limit(7).all()
+		return render_template('zbdata_groups.html', data=data, name=name)
+	else:
+		data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
+		return render_template('zbdata_groups.html',data=data,name=name)

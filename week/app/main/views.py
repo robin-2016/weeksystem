@@ -55,7 +55,7 @@ def index():
 		weekdata.append(weekzidian)
 		# print"当前周记录值：%d" %weekjilu
 		weekjilu = weekjilu +1
-	print weekdata
+	# print weekdata
 	return render_template('main.html',data=weekdata)
 
 # 根据id查询名称
@@ -69,18 +69,21 @@ def getgroups(id):
 def insert():
 	myform = InsertForm()
 	if request.path == '/insert':
-		yweak = int(time.strftime("%W"))
+		yweek = int(time.strftime("%W"))
 	elif request.path == '/lastinsert':
-		yweak = int(time.strftime("%W")) - 1
+		if int(time.strftime("%W")) == 1:
+			yweek = 52
+		else:
+			yweek = int(time.strftime("%W")) - 1
 	else:
-		yweak = int(time.strftime("%W"))
+		yweek = int(time.strftime("%W"))
 	projectid=Users.query.filter_by(name=(str(current_user.name))).first()
 	if request.method == 'GET':
 		myform.project.data=projectid.groups_id
 		myform.week.data=((datetime.now()).weekday())
 	if request.method == 'POST':
 		if myform.validate_on_submit():
-			if Daydata.query.filter_by(user=str(current_user.name)).filter_by(yearweek=yweak).filter_by(week=request.form['week']).first() is None:
+			if Daydata.query.filter_by(user=str(current_user.name)).filter_by(yearweek=yweek).filter_by(week=request.form['week']).first() is None:
 				wtime=0
 				for i in [myform.worktime0.data,myform.worktime1.data,myform.worktime2.data,myform.worktime3.data,myform.more1.data]:
 					if i != "":
@@ -96,7 +99,7 @@ def insert():
 				else:
 					com=c/a
 				dinsert = Daydata(user=str(current_user.name),
-					yearweek=yweak,
+					yearweek=yweek,
 					week=myform.week.data,
 					project_id=myform.project.data,
 					worktime=wtime,
@@ -120,10 +123,12 @@ def insert():
 				db.session.add(dinsert)
 				db.session.commit()
 			#flash("Insert Successful!")
-				if int(time.strftime("%W")) == yweak:
+				if int(time.strftime("%W")) == yweek:
 					return redirect(url_for('main.index'))
-				elif (int(time.strftime("%W"))-1) == yweak:
+				elif (int(time.strftime("%W"))-1) == yweek:
 					return redirect(url_for('zhoubaos.zbdata',name=str(current_user.name)))
+				elif int(time.strftime("%W")) == 1 and yweek == 52:
+					return redirect(url_for('zhoubaos.zbdata', name=str(current_user.name)))
 				else:
 					return redirect(url_for('main.index'))
 			else:
@@ -198,6 +203,8 @@ def update(id):
 						return redirect(url_for('main.index'))
 					elif (int(time.strftime("%W"))-1) == daydata.yearweek:
 						return redirect(url_for('zhoubaos.zbdata',name=str(current_user.name)))
+					elif int(time.strftime("%W")) == 1 and daydata.yearweek == 52:
+						return redirect(url_for('zhoubaos.zbdata', name=str(current_user.name)))
 					else:
 						return redirect(url_for('main.index'))
 				else:

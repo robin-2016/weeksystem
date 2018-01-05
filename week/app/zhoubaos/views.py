@@ -5,7 +5,7 @@ from flask import render_template,request,redirect,url_for,flash,session,current
 from flask_login import login_required,current_user
 from .. import db
 from ..zhoubaos import zhoubaos
-from ..models import Users,Groups,Daydata
+from ..models import Users,Groups,Newdata
 
 @zhoubaos.route('/search')
 @login_required
@@ -36,25 +36,62 @@ def zbusers():
 @login_required
 def zbdata(name):
 	if name == str(current_user.name):
-		if int(time.strftime("%W")) == 1:
-			data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=52).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-			return render_template('zbdata.html',data=data,name=name)
-		else:
-			data = db.session.query(Daydata, Groups.name).filter_by(user=str(name)).filter_by(
-				yearweek=(int(time.strftime("%W")) - 1)).order_by(Daydata.week).outerjoin(Groups,
-			                                                                              Daydata.project_id == Groups.id).limit(7).all()
-			return render_template('zbdata.html', data=data, name=name)
+		weekdata = huizong()
+		return render_template('lastweek.html', data=weekdata, name=name)
 	else:
 		flash("没有权限！")
 		return redirect(url_for('main.index'))
 
+def getgroups(id):
+	gname = Groups.query.filter_by(id=id).first().name
+	return gname
+
+def huizong():
+	if int(time.strftime("%W")) == 1:
+		data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(
+			yearweek=52).order_by(Newdata.week).all()
+	else:
+		data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(
+			yearweek=int(time.strftime("%W")) - 1).order_by(Newdata.week).all()
+	weekjilu = 0
+	weekdata = []
+	while weekjilu < 7:
+		if data == []:
+			break
+		worktime = 0
+		completed = 0
+		something = ""
+		projectjia = ""
+		c = 0
+		weekzidian = {}
+		for b in data:
+			if b.week == weekjilu:
+				worktime = worktime + int(b.worktime)
+				something = something + b.something + '<br/>'
+				completed = completed + int(b.completed)
+				projectjia = projectjia + str(getgroups(b.project_id)) + '<br/>'
+				c = c + 1
+		weekzidian['project_id'] = projectjia
+		weekzidian['worktime'] = worktime
+		if c == 0:
+			weekzidian['completed'] = 0
+		else:
+			weekzidian['completed'] = completed / c
+		weekzidian['something'] = something
+		weekzidian['week'] = weekjilu
+		weekdata.append(weekzidian)
+		weekjilu = weekjilu + 1
+	return weekdata
+
 @zhoubaos.route('/groups/<name>')
 @login_required
 def zbdata_groups(name):
-	if int(time.strftime("%W")) == 1:
-		data = db.session.query(Daydata, Groups.name).filter_by(user=str(name)).filter_by(
-			yearweek=52).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id == Groups.id).limit(7).all()
-		return render_template('zbdata_groups.html', data=data, name=name)
-	else:
-		data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-		return render_template('zbdata_groups.html',data=data,name=name)
+	# if int(time.strftime("%W")) == 1:
+	# 	data = db.session.query(Daydata, Groups.name).filter_by(user=str(name)).filter_by(
+	# 		yearweek=52).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id == Groups.id).limit(7).all()
+	# 	return render_template('zbdata_groups.html', data=data, name=name)
+	# else:
+	# 	data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
+	# 	return render_template('zbdata_groups.html',data=data,name=name)
+	weekdata = huizong()
+	return render_template('lastweek-geren.html', data=weekdata, name=name)

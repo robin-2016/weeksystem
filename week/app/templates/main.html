@@ -8,14 +8,20 @@
 {{ message }}
 </div>
 {% endfor %}
+    {%-block div %}
 <div class="pull-right">
 	<a href="/table" class="btn btn-default">提交周报</a>
 	</div>
+    {%-endblock div%}
 </div>
 </div>
 <div>
 	<table class="table table-bordered">
-	<thead><th class="text-center" colspan="7"><h3>本周总结</h3></th></thead>
+	<thead><th class="text-center" colspan="7">
+        {%-block h3 %}
+        <h3>本周总结</h3>
+        {%-endblock h3%}
+    </th></thead>
 	<tr>
 	<th>所属项目</th>
 	<th>当日工作量（/H）</th>

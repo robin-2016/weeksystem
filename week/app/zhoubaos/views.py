@@ -51,7 +51,7 @@ def huizong(name):
 		data = db.session.query(Newdata).filter_by(user=name).filter_by(
 			yearweek=52).order_by(Newdata.week).all()
 	else:
-		data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(
+		data = db.session.query(Newdata).filter_by(user=name).filter_by(
 			yearweek=int(time.strftime("%W")) - 1).order_by(Newdata.week).all()
 	weekjilu = 0
 	weekdata = []

@@ -36,7 +36,7 @@ def zbusers():
 @login_required
 def zbdata(name):
 	if name == str(current_user.name):
-		weekdata = huizong()
+		weekdata = huizong(name)
 		return render_template('lastweek.html', data=weekdata, name=name)
 	else:
 		flash("没有权限！")
@@ -46,9 +46,9 @@ def getgroups(id):
 	gname = Groups.query.filter_by(id=id).first().name
 	return gname
 
-def huizong():
+def huizong(name):
 	if int(time.strftime("%W")) == 1:
-		data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(
+		data = db.session.query(Newdata).filter_by(user=name).filter_by(
 			yearweek=52).order_by(Newdata.week).all()
 	else:
 		data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(
@@ -93,5 +93,5 @@ def zbdata_groups(name):
 	# else:
 	# 	data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
 	# 	return render_template('zbdata_groups.html',data=data,name=name)
-	weekdata = huizong()
+	weekdata = huizong(name)
 	return render_template('lastweek-geren.html', data=weekdata, name=name)

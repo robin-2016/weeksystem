@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #-*-coding=utf-8-*-
 import time,datetime,os
 from collections import Counter
@@ -5,7 +6,7 @@ from flask import render_template,request,redirect,url_for,flash
 from flask_login import login_required
 from .. import db
 from ..tongji import tongji
-from ..models import Users,Role,Groups,Daydata
+from ..models import Users,Role,Groups,Newdata
 from .forms import TongjiForm
 
 weekday = 5
@@ -48,34 +49,52 @@ def compute():
 		yweeklabel=u'上周'
 #	print yweek
 	montime=(datetime.datetime.strptime(str(tweek),'%Y-%m-%d')).replace(hour=9,minute=30,second=00)
-#	print montime
-#	users = Users.query.all()
 	users = db.session.query(Users.name,Groups.name).outerjoin(Groups,Users.groups_id==Groups.id).all()
 	for i in users:
-		data = db.session.query(Daydata.worktime,Daydata.time).filter_by(user=str(i[0])).filter_by(yearweek=yweek).order_by(Daydata.week.desc()).limit(7).all()
+		# data = db.session.query(Daydata.worktime,Daydata.time).filter_by(user=str(i[0])).filter_by(yearweek=yweek).order_by(Daydata.week.desc()).limit(7).all()
+		data = db.session.query(Newdata.worktime, Newdata.time,Newdata.week).filter_by(user=str(i[0])).filter_by(
+			yearweek=yweek).all()
 		if data != []:
+			# 统计提交时间
 			tlist = []
 			for b in data:
 				tlist.append(b.time)
 			maxtlist = max(tlist)
 			if maxtlist > montime:
 				uptime.append((i[1],i[0],maxtlist))
+			# 统计工作量
+			wk = 0
+			for a in data:
+				wk = wk + int(a.worktime)
+			if wk < weekday * 8:
+				wtime.append((i[1], i[0], (weekday * 8 - wk)))
+			# 统计周报天数
+			tianshu = []
+			for c in data:
+				tianshu.append(c.week)
+				tianshu = list(set(tianshu))
+			week_tianshu = len(tianshu)
+			if week_tianshu < weekday:
+				zhoubao.append((i[1],i[0],weekday-week_tianshu))
 		else:
 			uptime.append((i[1],i[0],''))
-		if len(data) < weekday:
-			zhoubao.append((i[1],i[0],(weekday-len(data))))
-		wk = int(0)
-		for a in data:
-			wk = wk + a.worktime
-		if wk < weekday*8:
-			wtime.append((i[1],i[0],(weekday*8-wk)))
-	if os.path.exists('/root/zbdata/')==False:
-		os.makedirs('/root/zbdata/')
-	with open('/root/zbdata/'+str(yweek),'w') as f:
-		f.write(str(uptime)+'\n')
-		f.write(str(zhoubao)+'\n')
-		f.write(str(wtime)+'\n')
-	return render_template('result.html',uptime=sorted(uptime),zhoubao=sorted(zhoubao),wtime=sorted(wtime),yweeklabel=yweeklabel)
+			wtime.append((i[1], i[0], (weekday * 8)))
+			zhoubao.append((i[1], i[0],weekday))
+	#统计已完成人员
+	wancheng = []
+	renyuan = []
+	for m in uptime:
+		renyuan.append(m[1])
+	for n in zhoubao:
+		renyuan.append(n[1])
+	for o in wtime:
+		renyuan.append(o[1])
+	print renyuan
+	for t in users:
+		# print t[0]
+		if t[0] not in renyuan:
+			wancheng.append(t[0])
+	return render_template('result.html',uptime=sorted(uptime),zhoubao=sorted(zhoubao),wtime=sorted(wtime),yweeklabel=yweeklabel,wancheng=wancheng)
 
 def qiuhe(l):
 	lists_c = []

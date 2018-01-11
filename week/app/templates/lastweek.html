@@ -1,5 +1,11 @@
 {% extends "main.html" %}
-    {%block div %}
+{%block content%}
+{{super()}}
+<div class="col-xs-3 col-md-offset-5">
+{{ wtf.quick_form(form) }}
+</div>
+{%endblock content%}
+{%block div %}
     <div class="pull-right">
 	<a href="/lasttable" class="btn btn-default">提交周报</a>
 	</div>

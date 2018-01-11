@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+{% block content %}
+<div class="container">
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+<button type="button" class="close" data-dismiss="alert">x</button>
+{{ message }}
+</div>
+{% endfor %}
+	<table class="table table-bordered">
+	<thead>
+    <th class="text-center" colspan="2"><h4>上周评分排序</h4></th>
+	<tr>
+	<th>用户名</th>
+	<th>得分</th>
+	</tr>
+	</thead>
+	<tbody>
+		{%for i in pingfenitem%}
+		<tr>
+		<td>{{i[0]}}</td>
+		<td>{{i[1]}}</td>
+		</tr>
+		{%endfor%}
+	</tbody>
+</div>
+<div class="container">
+	{% if pagination %}
+	<div class="pagination">
+    	{{ macros.pagination_widget(pagination, 'zhoubaos.pf_paixu') }}</div>
+	{% endif %}
+</div>
+{% endblock %}

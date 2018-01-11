@@ -31,6 +31,9 @@
                 <li><a href="/zhoubaos/{{current_user.name}}">个人上周周报</a></li>
             </ul>
 	{%if session.get('role') == 'admin' or session.get('role') == 'renli'%}
+            <ul class="nav navbar-nav">
+                <li><a href="/zhoubaos/pingfen">评分排序</a></li>
+            </ul>
 	    <ul class="nav navbar-nav">
                 <li><a href="/tongji">周报统计</a></li>
             </ul>

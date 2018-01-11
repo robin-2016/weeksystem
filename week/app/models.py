@@ -87,3 +87,12 @@ class Newdata(db.Model):
 	time = db.Column(db.DateTime)
 	yearweek = db.Column(db.Integer)
 	week = db.Column(db.Integer)
+
+class Score(db.Model):
+	__tablebname__ = 'score'
+	id = db.Column(db.Integer, primary_key=True)
+	user = db.Column(db.String(100))
+	score = db.Column(db.String(5))
+	comment = db.Column(db.Text)
+	yearweek = db.Column(db.Integer)
+	groups_id = db.Column(db.Integer)

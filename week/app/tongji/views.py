@@ -89,7 +89,7 @@ def compute():
 		renyuan.append(n[1])
 	for o in wtime:
 		renyuan.append(o[1])
-	print renyuan
+	# print renyuan
 	for t in users:
 		# print t[0]
 		if t[0] not in renyuan:

@@ -114,7 +114,7 @@ def zbdata_groups(name):
 	if myform.validate_on_submit():
 		groups_id = db.session.query(Users.groups_id).filter_by(name=name).first()
 		score_data = Score.query.filter_by(user=name).filter_by(yearweek=int(time.strftime("%W")) - 1).first()
-		print score_data
+		# print score_data
 		if score_data != None:
 			score_data.user = name
 			score_data.score = myform.score.data

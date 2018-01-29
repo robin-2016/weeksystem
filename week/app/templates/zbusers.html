@@ -14,7 +14,13 @@
 	<tbody>
 		{%for i in usersitem%}
 		<tr>
-		<td><a href="/zhoubaos/groups/{{i.name}}">{{i.name}}</a></td>
+		<td>
+			{%if session.get('role') == 'renli'%}
+			<a href="/zhoubaos/groups-rl/{{i.name}}">{{i.name}}</a>
+			{%else%}
+			<a href="/zhoubaos/groups/{{i.name}}">{{i.name}}</a>
+			{%endif%}
+		</td>
 		</tr>
 		{%endfor%}
 	</tbody>

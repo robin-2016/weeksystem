@@ -101,13 +101,6 @@ def zbdata(name):
 @zhoubaos.route('/groups/<name>',methods =['GET','POST'])
 @login_required
 def zbdata_groups(name):
-	# if int(time.strftime("%W")) == 1:
-	# 	data = db.session.query(Daydata, Groups.name).filter_by(user=str(name)).filter_by(
-	# 		yearweek=52).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id == Groups.id).limit(7).all()
-	# 	return render_template('zbdata_groups.html', data=data, name=name)
-	# else:
-	# 	data = db.session.query(Daydata,Groups.name).filter_by(user=str(name)).filter_by(yearweek=(int(time.strftime("%W"))-1)).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-	# 	return render_template('zbdata_groups.html',data=data,name=name)
 	myform = TijiaoForm()
 	if request.method == 'GET':
 		myform = get_score(name,myform)
@@ -128,6 +121,15 @@ def zbdata_groups(name):
 		return redirect(url_for('zhoubaos.zbdata_groups',name=name))
 	weekdata = huizong(name)
 	return render_template('lastweek-geren.html',form = myform, data=weekdata, name=name)
+
+@zhoubaos.route('/groups-rl/<name>')
+@login_required
+def zbdata_rl(name):
+	myform = ScoreForm()
+	if request.method == 'GET':
+		myform = get_score(name, myform)
+	weekdata = huizong(name)
+	return render_template('lastweek-geren.html',form = myform,data = weekdata,name = name)
 
 @zhoubaos.route('/pingfen')
 @login_required

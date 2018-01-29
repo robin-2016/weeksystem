@@ -25,7 +25,13 @@
         <tbody>
         {%for i in uptime%}
         <tr>
-            <td><a href="/zhoubaos/groups/{{i[1]}}">{{i[1]}}</a></td>
+            <td>
+                {%if session.get('role') == 'renli'%}
+			    <a href="/zhoubaos/groups-rl/{{i[1]}}">{{i[1]}}</a>
+			    {%else%}
+			    <a href="/zhoubaos/groups/{{i[1]}}">{{i[1]}}</a>
+			    {%endif%}
+            </td>
         <td>{{i[0]}}</td>
         <td>{{i[2]}}</td>
         </tr>
@@ -43,7 +49,13 @@
         <tbody>
 	{%for i in zhoubao%}
 	<tr>
-        <td><a href="/zhoubaos/groups/{{i[1]}}">{{i[1]}}</a></td>
+        <td>
+            {%if session.get('role') == 'renli'%}
+            <a href="/zhoubaos/groups-rl/{{i[1]}}">{{i[1]}}</a>
+            {%else%}
+            <a href="/zhoubaos/groups/{{i[1]}}">{{i[1]}}</a>
+            {%endif%}
+        </td>
 	<td>{{i[0]}}</td>
 	<td>{{i[2]}}</td>
 	</tr>
@@ -61,7 +73,13 @@
         <tbody>
         {%for i in wtime%}
         <tr>
-            <td><a href="/zhoubaos/groups/{{i[1]}}">{{i[1]}}</a></td>
+            <td>
+                {%if session.get('role') == 'renli'%}
+			    <a href="/zhoubaos/groups-rl/{{i[1]}}">{{i[1]}}</a>
+			    {%else%}
+			    <a href="/zhoubaos/groups/{{i[1]}}">{{i[1]}}</a>
+			    {%endif%}
+            </td>
         <td>{{i[0]}}</td>
 	    <td>{{i[2]}}</td>
         </tr>

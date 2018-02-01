@@ -8,6 +8,7 @@ from ..models import Newdata,Users,Groups
 from .forms import DataForm
 import time
 from datetime import datetime
+from  ..func import getlastweektime
 
 def chushihua():
 	myform = DataForm()
@@ -107,10 +108,7 @@ def lasttables():
 @data.route('/data/lastzhoubao')
 @login_required
 def lastdatazb():
-	if int(time.strftime("%W")) == 1:
-		yearweek = 52
-	else:
-		yearweek = int(time.strftime("%W")) - 1
+	yearweek = getlastweektime()
 	datajson = getdata(yearweek)
 	return datajson
 
@@ -118,9 +116,6 @@ def lastdatazb():
 @login_required
 def lastinsertpost():
 	if request.method == 'POST':
-		if int(time.strftime("%W")) ==1:
-			yearweek = 52
-		else:
-			yearweek = int(time.strftime("%W"))-1
+		yearweek = getlastweektime()
 		ok = insert_func(yearweek)
 	return ok

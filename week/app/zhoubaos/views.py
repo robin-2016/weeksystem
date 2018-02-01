@@ -7,47 +7,7 @@ from .. import db
 from ..zhoubaos import zhoubaos
 from ..models import Users,Groups,Newdata,Score
 from .forms import ScoreForm,TijiaoForm
-
-def getgroups(id):
-	gname = Groups.query.filter_by(id=id).first().name
-	return gname
-
-def huizong(name):
-	if int(time.strftime("%W")) == 1:
-		data = db.session.query(Newdata).filter_by(user=name).filter_by(
-			yearweek=52).order_by(Newdata.week).all()
-	else:
-		data = db.session.query(Newdata).filter_by(user=name).filter_by(
-			yearweek=int(time.strftime("%W")) - 1).order_by(Newdata.week).all()
-	weekjilu = 0
-	weekdata = []
-	while weekjilu < 7:
-		if data == []:
-			break
-		worktime = 0
-		completed = 0
-		something = ""
-		projectjia = ""
-		c = 0
-		weekzidian = {}
-		for b in data:
-			if b.week == weekjilu:
-				worktime = worktime + int(b.worktime)
-				something = something + b.something + '<br/>'
-				completed = completed + int(b.completed)
-				projectjia = projectjia + str(getgroups(b.project_id)) + '<br/>'
-				c = c + 1
-		weekzidian['project_id'] = projectjia
-		weekzidian['worktime'] = worktime
-		if c == 0:
-			weekzidian['completed'] = 0
-		else:
-			weekzidian['completed'] = completed / c
-		weekzidian['something'] = something
-		weekzidian['week'] = weekjilu
-		weekdata.append(weekzidian)
-		weekjilu = weekjilu + 1
-	return weekdata
+from ..func import getlastweektime,huizong
 
 def get_score(name,myform):
 	# score_data = db.session.query(Score.score, Score.comment).filter_by(yearweek=int(time.strftime("%W")) - 1).filter_by(user=name).first()
@@ -92,7 +52,8 @@ def zbdata(name):
 	if name == str(current_user.name):
 		myform = ScoreForm()
 		newform = get_score(name, myform)
-		weekdata = huizong(name)
+		yearweek = getlastweektime()
+		weekdata = huizong(name,yearweek)
 		return render_template('lastweek.html', form=newform,data=weekdata, name=name)
 	else:
 		flash("没有权限！")
@@ -119,7 +80,8 @@ def zbdata_groups(name):
 		db.session.add(score_data)
 		db.session.commit()
 		return redirect(url_for('zhoubaos.zbdata_groups',name=name))
-	weekdata = huizong(name)
+	yearweek = getlastweektime()
+	weekdata = huizong(name,yearweek)
 	return render_template('lastweek-geren.html',form = myform, data=weekdata, name=name)
 
 @zhoubaos.route('/groups-rl/<name>')
@@ -128,7 +90,8 @@ def zbdata_rl(name):
 	myform = ScoreForm()
 	if request.method == 'GET':
 		myform = get_score(name, myform)
-	weekdata = huizong(name)
+	yearweek = getlastweektime()
+	weekdata = huizong(name,yearweek)
 	return render_template('lastweek-geren.html',form = myform,data = weekdata,name = name)
 
 @zhoubaos.route('/pingfen')

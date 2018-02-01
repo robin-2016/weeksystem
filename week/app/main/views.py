@@ -8,60 +8,15 @@ from flask_login import login_required,current_user
 from .. import db
 from ..models import Daydata,Groups,Users,Newdata
 from .forms import InsertForm,UpdateForm
+from ..func import huizong
 
 @main.route('/main')
 @login_required
 def index():
-	# data = db.session.query(Daydata,Groups.name).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Daydata.week).outerjoin(Groups,Daydata.project_id==Groups.id).limit(7).all()
-	data = db.session.query(Newdata).filter_by(user=str(current_user.name)).filter_by(yearweek=int(time.strftime("%W"))).order_by(Newdata.week).all()
-	weekjilu = 0
-	weekdata = []
-	# print data
-	while weekjilu < 7                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  :
-		# 初始化数据汇总时变量
-		# print "当前data字典的长度:%d" % len(data)
-		if data == []:
-			break
-		worktime = 0
-		completed = 0
-		something = ""
-		projectjia = ""
-		c = 0
-		i = 0
-		weekzidian = {}
-		for b in data:
-			# print "b.week:%d" %b.week
-			# print "weekjilu:%d" %weekjilu
-			if b.week == weekjilu:
-				worktime = worktime + int(b.worktime)
-				something= something +b.something + '<br/>'
-				completed = completed + int(b.completed)
-				projectjia = projectjia + str(getgroups(b.project_id)) + '<br/>'
-				c = c +1
-				# print "当前b值：%s" %b
-				# data.remove(b)
-				# del data[i]
-			# print b
-			i += 1
-			# print "循环次数:%d" %i
-		weekzidian['project_id'] = projectjia
-		weekzidian['worktime'] = worktime
-		if c ==0 :
-			weekzidian['completed'] = 0
-		else:
-			weekzidian['completed'] = completed/c
-		weekzidian['something'] = something
-		weekzidian['week'] = weekjilu
-		weekdata.append(weekzidian)
-		# print"当前周记录值：%d" %weekjilu
-		weekjilu = weekjilu +1
-	# print weekdata
+	name = str(current_user.name)
+	yearweek = int(time.strftime("%W"))
+	weekdata = huizong(name,yearweek)
 	return render_template('main.html',data=weekdata)
-
-# 根据id查询名称
-def getgroups(id):
-	gname = Groups.query.filter_by(id=id).first().name
-	return gname
 
 @main.route('/insert',methods = ['GET','POST'])
 @main.route('/lastinsert',methods = ['GET','POST'])

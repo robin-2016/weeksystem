@@ -9,7 +9,7 @@ def isadmin(func):
 	@wraps(func)
 	def test1():
 		if session['role'] == 'admin':
-			func()
+			return func()
 		else:
 			flash(u"没有访问权限！")
 			return redirect(url_for("main.index"))

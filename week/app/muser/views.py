@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #-*-coding:utf-8-*-
-from flask import render_template,request,redirect,url_for,flash
+from flask import render_template,request,redirect,url_for,flash,current_app
 from flask_login import login_required
 from .. import db
 from ..muser import muser

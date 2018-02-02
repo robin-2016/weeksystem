@@ -2,13 +2,12 @@
 #-*-coding:utf-8-*-
 from . import data
 from .. import db
-from flask import render_template,jsonify,url_for,redirect,request,current_app
+from flask import render_template,jsonify,url_for,redirect,request,flash
 from flask_login import login_required,current_user
 from ..models import Newdata,Users,Groups
 from .forms import DataForm
-import time
 from datetime import datetime
-from  ..func import getlastweektime
+from  ..func import getweektime,getlastweektime
 
 def chushihua():
 	myform = DataForm()
@@ -51,15 +50,13 @@ def btable():
 @data.route('/insert/post',methods=['POST'])
 @login_required
 def insertpost():
-	yearweek = int(time.strftime("%W"))
-	ok = insert_func(yearweek)
+	ok = insert_func(getweektime())
 	return ok
 
 @data.route('/data/zhoubao')
 @login_required
 def datazhoubao():
-	yearweek = int(time.strftime("%W"))
-	datajson = getdata(yearweek)
+	datajson = getdata(getweektime())
 	return datajson
 
 @data.route('/post',methods=['POST'])
@@ -83,7 +80,12 @@ def newdatadel():
 	dataid = request.form['id']
 	idlist = dataid.encode('utf-8').split(",")
 	for i in idlist:
-		db.session.delete(Newdata.query.filter_by(id=int(i)).first())
+		newdata = Newdata.query.filter_by(id=int(i)).first()
+		if newdata.user == current_user.name:
+			db.session.delete(Newdata.query.filter_by(id=int(i)).first())
+		else:
+			flash(u"没有操作权限！！！")
+			return redirect(url_for("main.index"))
 	db.session.commit()
 	# print request.form
 	return 'ok!'

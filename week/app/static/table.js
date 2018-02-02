@@ -9,8 +9,8 @@ $(function () {
     var oBtn_insert = document.getElementById('insButton');
     oBtn_insert.onclick = ROWINS;
     //删除按钮操作
-    var oBtn_add = document.getElementById('btn_delete');
-    oBtn_add.onclick = ROWDEL;
+    var oBtn_del = document.getElementById('btn_delete');
+    oBtn_del.onclick = ROWDEL;
 });
 var TableInit = function () {
     var oTableInit = new Object();

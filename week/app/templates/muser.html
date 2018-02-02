@@ -18,6 +18,7 @@
 	<th>最后登录时间</th>
 	<th>操作</th>
 	<th>重置密码</th>
+	<th>删除用户</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -29,9 +30,11 @@
 		<td>{{i[4]}}</td>
 		<td><a href="/muser/auth/{{i[0]}}">权限变更</a></td>
 		<td><a href="/muser/pw/{{i[0]}}">重置密码</a></td>
+		<td><a href="#" onclick="if(confirm('确定删除{{i[1]}}吗？')){location.href='/muser/del/{{i[0]}}'}">删除用户</a></td>
 		</tr>
 		{%endfor%}
 	</tbody>
+	</table>
 </div>
 <div class="container">
 	{% if pagination %}

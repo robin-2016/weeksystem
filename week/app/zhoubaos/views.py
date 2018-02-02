@@ -1,17 +1,16 @@
 #!/usr/bin/python
 #-*-coding:utf-8 -*-
-import time
 from flask import render_template,request,redirect,url_for,flash,session,current_app
 from flask_login import login_required,current_user
 from .. import db
 from ..zhoubaos import zhoubaos
-from ..models import Users,Groups,Newdata,Score
+from ..models import Users,Groups,Score
 from .forms import ScoreForm,TijiaoForm
 from ..func import getlastweektime,huizong
 
 def get_score(name,myform):
 	# score_data = db.session.query(Score.score, Score.comment).filter_by(yearweek=int(time.strftime("%W")) - 1).filter_by(user=name).first()
-	score_data = Score.query.filter_by(user=name).filter_by(yearweek=int(time.strftime("%W")) - 1).first()
+	score_data = Score.query.filter_by(user=name).filter_by(yearweek=getlastweektime()).first()
 	if score_data == None:
 		myform.score.data = None
 		myform.comment.data = None
@@ -48,7 +47,6 @@ def zbusers():
 @zhoubaos.route('/<name>')
 @login_required
 def zbdata(name):
-	# score_data = Score.query.filter_by(user=name).filter_by(yearweek=int(time.strftime("%W"))-1).first()
 	if name == str(current_user.name):
 		myform = ScoreForm()
 		newform = get_score(name, myform)
@@ -67,16 +65,16 @@ def zbdata_groups(name):
 		myform = get_score(name,myform)
 	if myform.validate_on_submit():
 		groups_id = db.session.query(Users.groups_id).filter_by(name=name).first()
-		score_data = Score.query.filter_by(user=name).filter_by(yearweek=int(time.strftime("%W")) - 1).first()
+		score_data = Score.query.filter_by(user=name).filter_by(yearweek=getlastweektime()).first()
 		# print score_data
 		if score_data != None:
 			score_data.user = name
 			score_data.score = myform.score.data
 			score_data.comment = myform.comment.data
 			score_data.groups_id = groups_id.groups_id
-			score_data.yearweek = int(time.strftime("%W"))-1
+			score_data.yearweek = getlastweektime()
 		else:
-			score_data = Score(user=name,score=myform.score.data,comment=myform.comment.data,groups_id=groups_id.groups_id,yearweek=int(time.strftime("%W"))-1)
+			score_data = Score(user=name,score=myform.score.data,comment=myform.comment.data,groups_id=groups_id.groups_id,yearweek=getlastweektime())
 		db.session.add(score_data)
 		db.session.commit()
 		return redirect(url_for('zhoubaos.zbdata_groups',name=name))
@@ -98,6 +96,6 @@ def zbdata_rl(name):
 @login_required
 def pf_paixu():
 	page = request.args.get('page', 1, type=int)
-	pingfen = db.session.query(Score.user,Score.score).filter_by(yearweek=int(time.strftime("%W"))-1).order_by(Score.score).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+	pingfen = db.session.query(Score.user,Score.score).filter_by(yearweek=getlastweektime()).order_by(Score.score).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
 	pingfenitem = pingfen.items
 	return render_template('pingfen.html',pingfenitem=pingfenitem,pagination=pingfen)

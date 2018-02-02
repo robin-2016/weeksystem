@@ -1,14 +1,15 @@
 #!/usr/bin/python
 #-*-coding:utf-8-*-
-from flask import render_template,request,redirect,url_for,flash,current_app,session
+from flask import render_template,request,redirect,url_for,flash
 from flask_login import login_required
 from .. import db
 from ..muser import muser
-from ..models import Users,Role,Groups
+from ..models import Users,Role,Groups,Newdata,Score,Daydata
 from .forms import MuserForm
-from werkzeug.security import generate_password_hash
+from ..per import isadmin
 
 @muser.route('/main')
+@isadmin
 @login_required
 def musermain():
 	page = request.args.get('page',1,type=int)
@@ -18,6 +19,7 @@ def musermain():
 	return render_template('muser.html',usersitem=usersitem,pagination=users)
 
 @muser.route('/auth/<id>',methods=['GET','POST'])
+@isadmin
 @login_required
 def usersdo(id):
 	myform=MuserForm()
@@ -46,15 +48,30 @@ def usersdo(id):
 	return render_template('muserdo.html',myform=myform)
 
 @muser.route('/pw/<id>')
+@isadmin
 @login_required
 def mpw(id):
-	if session['role'] =='admin':
-		userchangepw = Users.query.filter_by(id=id).first()
-		userchangepw.password_hash=str(0)
-		db.session.add(userchangepw)
-		db.session.commit()
-		flash("重置成功！")
-		return redirect(url_for('muser.musermain'))
-	else:
-		flash("没有权限！")
-		return redirect(url_for('muser.musermain'))
+	userchangepw = Users.query.filter_by(id=id).first()
+	userchangepw.password_hash=str(0)
+	db.session.add(userchangepw)
+	db.session.commit()
+	flash("重置成功！")
+	return redirect(url_for('muser.musermain'))
+
+@muser.route("/del/<id>",methods=['GET','POST'])
+@isadmin
+@login_required
+def deluser(id):
+	users = Users.query.filter_by(id=id).first()
+	newdata = Newdata.query.filter_by(user=users.name).all()
+	score = Score.query.filter_by(user=users.name).all()
+	daydata = Daydata.query.filter_by(user=users.name).all()
+	for i in [newdata,score,daydata]:
+		if i != []:
+			for n in i:
+				print(n.user)
+				db.session.delete(n)
+	db.session.delete(users)
+	db.session.commit()
+	flash("删除完成！")
+	return redirect(url_for("muser.musermain"))

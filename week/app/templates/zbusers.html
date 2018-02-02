@@ -24,12 +24,13 @@
 		</tr>
 		{%endfor%}
 	</tbody>
+	</table>
 </div>
-<div>
+</div>
+<div class="container">
         {% if pagination %}
         <div class="pagination">
         {{ macros.pagination_widget(pagination, 'zhoubaos.zbusers') }}</div>
 	{% endif %}
-</div>
 </div>
 {% endblock %}

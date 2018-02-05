@@ -65,7 +65,7 @@ def compute():
 			# 统计工作量
 			wk = 0
 			for a in data:
-				wk = wk + int(a.worktime)
+				wk = wk + float(a.worktime)
 			if wk < weekday * 8:
 				wtime.append((i[1], i[0], (weekday * 8 - wk)))
 			# 统计周报天数

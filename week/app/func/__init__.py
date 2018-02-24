@@ -20,12 +20,12 @@ def huizong(name,yearweek):
 	# yearweek = getlastweektime()
 	data = db.session.query(Newdata).filter_by(user=name).filter_by(
 			yearweek=yearweek).order_by(Newdata.week).all()
-	week = {}
-	for a in data:
-		week[a.week] = a.week
-	weekjilu = 0
+	week = []
 	weekdata = []
-	while weekjilu < len(week):
+	for a in data:
+		if int(a.week) not in week:
+			week.append(int(a.week))
+	for weekjilu in week:
 		if data == []:
 			break
 		worktime = 0
@@ -50,7 +50,6 @@ def huizong(name,yearweek):
 		weekzidian['something'] = something
 		weekzidian['week'] = weekjilu
 		weekdata.append(weekzidian)
-		weekjilu = weekjilu + 1
 	return weekdata
 
 def getgroups(id):

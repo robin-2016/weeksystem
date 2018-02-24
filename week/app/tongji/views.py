@@ -8,9 +8,10 @@ from .. import db
 from ..tongji import tongji
 from ..models import Users,Role,Groups,Newdata
 from .forms import TongjiForm
+from ..func import getlastweektime
 
 weekday = 5
-yweek = int(time.strftime("%W"))-1
+yweek = getlastweektime()
 
 @tongji.route('/tongji',methods=['GET','POST'])
 @login_required
@@ -38,7 +39,7 @@ def compute():
 	uptime = []
 	zhoubao = []
 	wtime = []
-	if yweek == (int(time.strftime("%W"))-1):
+	if yweek == getlastweektime():
 		tweek = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
 		yweeklabel=u'上周'
 	elif yweek == (int(time.strftime("%W"))-2):

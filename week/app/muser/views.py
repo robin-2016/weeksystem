@@ -44,8 +44,8 @@ def usersdo(id):
 			return redirect(url_for('muser.musermain'))
 		else:
 			flash('Update fialed!!!')
-			return render_template('muserdo.html',myform=myform)
-	return render_template('muserdo.html',myform=myform)
+			return render_template('muserdo.html',form=myform)
+	return render_template('muserdo.html',form=myform)
 
 @muser.route('/pw/<id>')
 @isadmin

@@ -15,23 +15,7 @@
 	</table>
 </div>
 <div class="row">
-<div class="col-xs-4">
-	<table class="table table-bordered">
-        <thead><th class="text-center" colspan="2">未按时间提交</th></thead>
-	<tr>
-        <th>姓名</th>
-        <th>未按时提交次数</th></tr>
-        <tbody>
-        {%for key,value in uptime.items()%}
-        <tr>
-        <td>{{key}}</td>
-        <td>{{value}}</td>
-        </tr>
-        {%endfor%}
-	</tbody>
-        </table>
-</div>
-<div class="col-xs-4">
+<div class="col-xs-6">
         <table class="table table-bordered">
         <thead><th class="text-center" colspan="3">月统计未完成</th></thead>
         <tr><th>姓名</th>
@@ -49,7 +33,7 @@
 	</tbody>
         </table>
 </div>
-<div class="col-xs-4">
+<div class="col-xs-6">
         <table class="table table-bordered">
         <thead><th class="text-center" colspan="3">工作量不足</th></thead>
 	<tr>
@@ -67,5 +51,11 @@
 	</tbody>
         </table>
 </div>
+</div>
+<div class="container-fluid">
+<h4>已完成人员:</h4>
+    {%for a in wancheng%}
+    <a href="/zhoubaos/groups/{{a}}">{{a}}</a>&nbsp;
+    {%endfor%}
 </div>
 {% endblock %}

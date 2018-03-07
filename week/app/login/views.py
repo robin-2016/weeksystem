@@ -71,5 +71,5 @@ def userchange():
                         return redirect(url_for('main.index'))
                 else:
                         flash('Change Fialed!')
-                        return render_template('changepw.html',form=myform)
-        return render_template('changepw.html',form=myform)
+                        return render_template('form.html',form=myform)
+        return render_template('form.html',form=myform)

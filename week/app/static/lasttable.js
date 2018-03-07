@@ -101,13 +101,11 @@ var TableInit = function () {
                 editable:{
                     type:'text',
                     title:'工作内容',
+                    mode:'inline',
+                    width: "100%",
                     validate: function (v) {
                         if (!v) return '工作内容不能为空';
-                    },
-                    mode:'inline'
-                    // url:function (parmas) {
-                    //     console.log(parmas)
-                    // }
+                    }
                 }
             },{
                 field: 'week',

@@ -12,7 +12,7 @@ from ..func import getlastweektime
 
 wday = 5
 yweek = getlastweektime()
-mday = 28
+mday = 20
 
 def getweeks():
 	mlast = datetime.date.today() - datetime.timedelta(days=datetime.datetime.now().day)
@@ -130,7 +130,7 @@ def tongji02():
 	fweek = weeks[0]
 	lweek = weeks[1]
 	myform = YuetongjiForm()
-	myform.monthday.data = 28
+	myform.monthday.data = 20
 	if request.method == "POST":
 		if myform.validate_on_submit() and int(request.form['monthday']) != None and int(request.form['monthday']) <= 31:
 			global mday

@@ -55,7 +55,7 @@ def mpw(id):
 	userchangepw.password_hash=str(0)
 	db.session.add(userchangepw)
 	db.session.commit()
-	flash("重置成功！")
+	flash("密码重置为0，成功！")
 	return redirect(url_for('muser.musermain'))
 
 @muser.route("/del/<id>",methods=['GET','POST'])

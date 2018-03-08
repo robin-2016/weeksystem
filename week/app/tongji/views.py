@@ -151,8 +151,8 @@ def hebing():
 	lweek = weeks[1]
 	users = db.session.query(Users.name, Groups.name).outerjoin(Groups, Users.groups_id == Groups.id).all()
 	for i in users:
-		data = db.session.query(Newdata.worktime,Newdata.week).filter_by(user=str(i[0])).filter(Newdata.yearweek>=fweek).filter(Newdata.yearweek<=lweek).all()
-		print(data)
+		data = db.session.query(Newdata.worktime,Newdata.week,Newdata.yearweek).filter_by(user=str(i[0])).filter(Newdata.yearweek>=fweek).filter(Newdata.yearweek<=lweek).all()
+		# print(data)
 		if data != []:
 			# 统计工作量
 			wk = 0
@@ -163,17 +163,15 @@ def hebing():
 			# 统计周报天数
 			tianshu = set([])
 			for c in data:
-				tianshu.add(c.week)
+				tianshu.add(str(c.yearweek)+str(c.week))
 				tianshu = tianshu
-			week_tianshu = len(tianshu)
-			if week_tianshu < mday:
-				zhoubao.append((i[1], i[0], mday - week_tianshu))
+			# print(tianshu)
+			month_tianshu = len(tianshu)
+			if month_tianshu < mday:
+				zhoubao.append((i[1], i[0], mday - month_tianshu))
 		else:
 			wtime.append((i[1], i[0], (mday * 8)))
 			zhoubao.append((i[1], i[0], mday))
-			# print(wtime)
-			# print(zhoubao)
-			# print(data)
 	# 统计已完成人员
 	wancheng = []
 	renyuan = []
@@ -181,9 +179,7 @@ def hebing():
 		renyuan.append(n[1])
 	for o in wtime:
 		renyuan.append(o[1])
-	# print renyuan
 	for t in users:
-		# print t[0]
 		if t[0] not in renyuan:
 			wancheng.append(t[0])
 	return render_template('yueresult.html',zhoubao=sorted(zhoubao),wtime=sorted(wtime),wancheng=wancheng,fweek=fweek,lweek=lweek,nweek=time.strftime("%W"))

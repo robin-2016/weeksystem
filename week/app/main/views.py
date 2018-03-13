@@ -1,21 +1,19 @@
 #!/usr/bin/python
 #-*-coding:utf-8 -*-
-from datetime import datetime
-import time
+# from datetime import datetime
+# import time
 from ..main import main
 from flask import render_template,request,redirect,url_for,flash
 from flask_login import login_required,current_user
-from .. import db
-from ..models import Daydata,Groups,Users,Newdata
-from .forms import InsertForm,UpdateForm
-from ..func import huizong
+# from .. import db
+# from ..models import Daydata,Groups,Users,Newdata
+# from .forms import InsertForm,UpdateForm
+from ..func import huizong,getweektime
 
 @main.route('/main')
 @login_required
 def index():
-	name = str(current_user.name)
-	yearweek = int(time.strftime("%W"))
-	weekdata = huizong(name,yearweek)
+	weekdata = huizong(str(current_user.name),getweektime())
 	return render_template('main.html',data=weekdata)
 
 # @main.route('/insert',methods = ['GET','POST'])

@@ -33,4 +33,6 @@ def creat_app(config_name):
 	app.register_blueprint(tongji_blueprint)
 	from .data import data as data_blueprint
 	app.register_blueprint(data_blueprint)
+	from .history import history as history_blueprint
+	app.register_blueprint(history_blueprint)
 	return app

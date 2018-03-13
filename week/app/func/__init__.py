@@ -3,17 +3,18 @@ from .. import db
 from ..models import Groups,Newdata
 
 def getweektime():
-	if int(time.strftime("%W")) == 52:
-		yearweek = int(time.strftime("%Y"))
-	else:
-		yearweek = int(time.strftime("%W"))
+	yearweek = int(time.strftime("%Y%W"))
+	# if int(time.strftime("%W")) == 52:
+	# 	yearweek = int(time.strftime("%Y"))
+	# else:
+	# 	yearweek = int(time.strftime("%W"))
 	return yearweek
 
 def getlastweektime():
 	if int(time.strftime("%W")) == 1:
-		yearweek = int(time.strftime("%Y")) -1
+		yearweek = int(str(int(time.strftime("%Y"))-1)+'52')
 	else:
-		yearweek = int(time.strftime("%W")) -1
+		yearweek = int(time.strftime("%Y")+str(int(time.strftime("%W"))-1))
 	return yearweek
 
 def huizong(name,yearweek):

@@ -17,26 +17,17 @@ mday = 20
 def getweeks():
 	mlast = datetime.date.today() - datetime.timedelta(days=datetime.datetime.now().day)
 	mfirst = mlast - datetime.timedelta(days=mlast.day - 1)
-	# print mfirst
-	# print mlast
-	# print mlast.strftime("%W")
-	# print mlast.strftime("%w")
-	# print type(mlast.strftime("%w"))
-	# print mfirst.strftime("%W")
-	# print mfirst.strftime("%w")
-	#	print mfirst-datetime.timedelta(days=-1)
-	#	print (mfirst-datetime.timedelta(days=-1)).strftime("%W")
-	#	print mfirst-datetime.timedelta(days=1)
-	#	print (mfirst-datetime.timedelta(days=1)).strftime("%W")
+	# print(mfirst,mlast)
 	if int(mfirst.strftime("%w")) <= 2:
-		fweek = int(mfirst.strftime("%W"))
+		fweek = int(mfirst.strftime("%Y")+str(int(mfirst.strftime("%W"))))
 	else:
-		fweek = int(mfirst.strftime("%W")) + 1
+		fweek = int(mfirst.strftime("%Y")+str(int(mfirst.strftime("%W")) + 1))
 	if int(mlast.strftime("%w")) >= 2:
-		lweek = int(mlast.strftime("%W"))
+		lweek = int(mlast.strftime("%Y")+str(int(mlast.strftime("%W"))))
+		# print(lweek)
 	else:
-		lweek = int(mlast.strftime("%W")) - 1
-#	print fweek,lweek
+		lweek = int(mlast.strftime("%Y")+str(int(mlast.strftime("%W")) - 1))
+
 	return [fweek,lweek]
 
 @tongji.route('/tongji',methods=['GET','POST'])
@@ -52,12 +43,6 @@ def tongji01():
 			yweek = request.form['yweek']
 		return redirect(url_for('tongji.compute'))
 	return render_template('form.html',form=myform)
-
-#get monday time
-#def tmonday():
-#	week = datetime.datetime.now().weekday()
-#	return 
-	
 
 @tongji.route('/result')
 @login_required
@@ -182,4 +167,4 @@ def hebing():
 	for t in users:
 		if t[0] not in renyuan:
 			wancheng.append(t[0])
-	return render_template('yueresult.html',zhoubao=sorted(zhoubao),wtime=sorted(wtime),wancheng=wancheng,fweek=fweek,lweek=lweek,nweek=time.strftime("%W"))
+	return render_template('yueresult.html',zhoubao=sorted(zhoubao),wtime=sorted(wtime),wancheng=wancheng,fweek=str(fweek)[4:],lweek=str(lweek)[4:],nweek=time.strftime("%W"))
